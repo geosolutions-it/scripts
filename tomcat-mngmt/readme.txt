@@ -1,5 +1,7 @@
+These Instructions are valid both for Ubuntu and CentOs scripts. 
+The Ubuntu version use the start-stop-daemon command instead of daemon command.
 
-the tomcatService script depends on tomcatRunner, the script assumes the presence of setenv.sh script in $CATALINA_BASE/bin directory.
+The tomcatService script depends on tomcatRunner, the script assumes the presence of setenv.sh script in $CATALINA_BASE/bin directory.
 
 1) copy both files into /etc/init.d folder, set execution permission and owner to root.
 

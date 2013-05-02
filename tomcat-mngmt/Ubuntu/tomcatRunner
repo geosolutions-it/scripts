@@ -1,0 +1,49 @@
+#!/bin/bash
+# Sebastian Hennebrueder
+# http://www.laliluna.de
+# Executes a Tomcat startup command and notes the PID
+# parm 1 is the pidfile
+# param 2 is the tomcat logfile to which the output is redirected
+# param 3 is the command
+# param 4 .. n will be added to the command
+
+if [ $# -lt 3 ]; then
+  echo "Usage: $0 pidfile logfile command"
+  exit 1
+fi
+
+# extract params
+pidfile="$1"
+logfile="$2"
+cmd="$3"
+shift 3
+
+# check if we can access pidfile
+touch "$pidfile"
+
+if [ ! $? = "0" ]; then
+        echo "Could not touch pidfile: $pidfile"
+        exit 1;
+fi
+
+
+# run command
+$cmd $@ >> "$logfile"  2>&1 &
+pid=$!
+
+# check that the process is running
+
+if [ ! -d "/proc/$pid" ]; then
+        echo "Error starting Tomcat, check the logfile at $logfile"
+        exit 1;
+fi
+
+# write pid file
+echo "$pid" > "$pidfile"
+
+if [ ! $? = "0" ]; then
+        echo "Could not write pid to pidfile: $pidfile"
+        exit 1;
+fi
+exit 0
+
