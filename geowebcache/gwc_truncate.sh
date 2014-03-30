@@ -79,7 +79,7 @@ gwc_truncate()
 			PFILTER="'parameters':{'entry':{'string':['STYLES', '${STYLE}']}}"
 			echo "FILTER: ${PFILTER}"
 
-			echo "Senting request body: {'seedRequest':{'name':'${LAYERNAME}','gridSetId':'${GRIDSETID}','zoomStart':'${ZOOMSTART}','zoomStop':'${ZOOMSTOP}','format':${TILEFORMAT}','type':'truncate','threadCount':4, ${PFILTER}}}" >> $LOGFILE
+			echo "Sending request body: {'seedRequest':{'name':'${LAYERNAME}','gridSetId':'${GRIDSETID}','zoomStart':'${ZOOMSTART}','zoomStop':'${ZOOMSTOP}','format':${TILEFORMAT}','type':'truncate','threadCount':4, ${PFILTER}}}" >> $LOGFILE
 
 			echo "Sending request to the URL: ${GWCRESTURL}/${LAYERNAME}.json" >> $LOGFILE
 
@@ -88,7 +88,7 @@ gwc_truncate()
 		else
 			echo "Truncating only the Default style Tiles for Layer: ${LAYERNAME}" >> $LOGFILE
 		
-			echo "Senting request body: {'seedRequest':{'name':'${LAYERNAME}','gridSetId':'${GRIDSETID}','zoomStart':'${ZOOMSTART}','zoomStop':'${ZOOMSTOP}','format':${TILEFORMAT}','type':'truncate','threadCount':4}}" >> $LOGFILE
+			echo "Sending request body: {'seedRequest':{'name':'${LAYERNAME}','gridSetId':'${GRIDSETID}','zoomStart':'${ZOOMSTART}','zoomStop':'${ZOOMSTOP}','format':${TILEFORMAT}','type':'truncate','threadCount':4}}" >> $LOGFILE
 
 			echo "Sending request to the URL: ${GWCRESTURL}/${LAYERNAME}.json" >> $LOGFILE
 
