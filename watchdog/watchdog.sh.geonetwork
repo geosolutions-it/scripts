@@ -24,19 +24,18 @@
 #THE SOFTWARE.
 
 ############################################################
-# author: carlo cancellieri - ccancellieri@geo-solutions.it
-# date: 7 Apr 2011
+# author: tobia di pisa - tobia.dipisa@geo-solutions.it
+# date: 22 Feb 2012
 #
 # simple watchdog for webservice
 ############################################################
 
+# where to write to
+TMPFILE=/tmp/geonetworkurltest
 
 # the url to use to test the service
 # !make sure to implement the url_test logic also into the bottom function
-#URL=http://192.168.1.106:8484/figis/geoserver/styles/default_point.sld
-
-GNURL=http://172.16.1.136:8080/geonetwork/
-#WFSURL="$GNURL/wfs?request=GetFeature&typeName=fifao:FAO_MAJOR&propertyName=F_AREA&maxfeatures=1"
+URL="http://localhost:8080/geonetwork/srv/en/xml.group.list"
 
 #set the connection timeout (in seconds)
 TIMEOUT=30
@@ -48,20 +47,20 @@ TOMCAT_TIMEOUT=50
 # used to filter the process (to get the pid)
 # use: ps -efl
 # to see what you have to filter
-FILTER="-Dcatalina.base=/var/lib/tomcat/geonetwork/"
+FILTER="geonetwork"
 
 # the service to restart
 # should be a script placed here:
 # /etc/init.d/
 # 
-CMD_START="/etc/init.d/geonetwork start"
-
-CMD_STOP="/etc/init.d/geonetwork stop"
+SERVICE="geonetwork"
+CMD_STOP="/etc/init.d/$SERVICE stop"
+CMD_START="/etc/init.d/$SERVICE start"
 
 # the output file to use as log
 # must exists otherwise the stdout will be used
 # NOTE: remember to logrotate this file!!!
-LOGFILE="/var/lib/tomcat/geonetwork/logs/watchdog.log"
+LOGFILE="/var/lib/tomcat/$SERVICE/logs/watchdog.log"
 
 # maximum tries to perform a quick restart
 # when the service fails to be started a quick (30 sec)
@@ -79,18 +78,12 @@ url_test()
    #wget -O - -T "${TIMEOUT}" -o "/dev/null" --proxy=off ${WFSURL} >> "${LOGFILE}" 2>&1
    #url_test "${?}"
 
-   TMPFILE=/tmp/urltest
+   TMPFILE=$TMPFILE
    rm $TMPFILE
-   # OUTPUT=$(wget -O - -T "${TIMEOUT}" --proxy=off ${WFSURL} >> "${LOGFILE}" 2>&1)
-   #curl --max-time $TIMEOUT $WFSURL > $TMPFILE 2>> $LOGFILE
 
-   #if grep 'FeatureCollection numberOfFeatures="1"' $TMPFILE ; then
-        #return 0
-   #else
-        #return 1
-   #fi
-   wget -T "${TIMEOUT}" "${GNURL}" -O "${TMPFILE}" 2>> "${LOGFILE}"
-   return ${?}
+   wget -O $TMPFILE -T "${TIMEOUT}" -o "/dev/null" --proxy=off ${URL} >> "${LOGFILE}" 2>&1
+
+   return $?
 }
 
 
@@ -111,10 +104,10 @@ do
 
         #testing on url_test exit code
 	if [ "$?" -eq 0 ] ; then
-		echo "`date` WatchDog Status: OK -> $SERVICE is responding at URL $GNURL" >> $LOGFILE
+		echo "`date` WatchDog Status: OK -> $SERVICE is responding at URL $URL" >> $LOGFILE
 		exit 0;
 	else
-		echo "`date` WatchDog Status: FAIL -> $SERVICE is NOT responding properly at URL $GNURL" >> $LOGFILE
+		echo "`date` WatchDog Status: FAIL -> $SERVICE is NOT responding properly at URL $URL" >> $LOGFILE
 		echo "`date` WatchDog Action: Stopping service $SERVICE" >> $LOGFILE
 
 		PIDFILE=`${CMD_STOP} |awk '/PID/{gsub(".*[(]","",$0);gsub("[)].*","",$0); print $0}'`
@@ -130,8 +123,7 @@ do
 			echo "`date` WatchDog Action: Stop failed -> TERMinating service $SERVICE (pid: ${thepin})" >> $LOGFILE
 			kill -15 $thepin >> $LOGFILE 2>&1
 			sleep "$TIMEOUT"
-			while [ "${thepin}" = "`ps -efl | awk -v FILTER="${FILTER}" '!/awk/&&/org.apache.catalina.startup.Bootstrap/{if ($0 ~ FILTER) {print 
-$4}}'`" ];
+			while [ "${thepin}" = "`ps -efl | awk -v FILTER="${FILTER}" '!/awk/&&/org.apache.catalina.startup.Bootstrap/{if ($0 ~ FILTER) {print $4}}'`" ];
 			do 
 				echo "`date` WatchDog Action: TERM failed -> KILLing service $SERVICE (pid: ${thepin})" >> "${LOGFILE}"
 				kill -9 "${thepin}" >> "${LOGFILE}" 2>&1
@@ -162,5 +154,4 @@ $4}}'`" ];
 	fi
 done
 echo "`date` WatchDog Action: Starting service FAILED ${SERVICE} (WHAT's HAPPENING? -> exit (status: 100))" >> "${LOGFILE}"
-return 100
-
+exit 100

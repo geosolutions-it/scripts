@@ -30,10 +30,12 @@
 # simple watchdog for webservice
 ############################################################
 
+# where to write to
+TMPFILE=/tmp/mapstoreurltest
 
 # the url to use to test the service
 # !make sure to implement the url_test logic also into the bottom function
-URL="http://localhost:8080/mapcomposer/about.html"
+URL="http://localhost:8083/mapstore/about.html"
 
 #set the connection timeout (in seconds)
 TIMEOUT=30
@@ -76,7 +78,7 @@ url_test()
    #wget -O - -T "${TIMEOUT}" -o "/dev/null" --proxy=off ${WFSURL} >> "${LOGFILE}" 2>&1
    #url_test "${?}"
 
-   TMPFILE=/tmp/gwcurltest
+   TMPFILE=$TMPFILE
    rm $TMPFILE
 
    wget -O $TMPFILE -T "${TIMEOUT}" -o "/dev/null" --proxy=off ${URL} >> "${LOGFILE}" 2>&1
@@ -102,10 +104,10 @@ do
 
         #testing on url_test exit code
 	if [ "$?" -eq 0 ] ; then
-		echo "`date` WatchDog Status: OK -> $SERVICE is responding at URL $GSURL" >> $LOGFILE
+		echo "`date` WatchDog Status: OK -> $SERVICE is responding at URL $URL" >> $LOGFILE
 		exit 0;
 	else
-		echo "`date` WatchDog Status: FAIL -> $SERVICE is NOT responding properly at URL $GSURL" >> $LOGFILE
+		echo "`date` WatchDog Status: FAIL -> $SERVICE is NOT responding properly at URL $URL" >> $LOGFILE
 		echo "`date` WatchDog Action: Stopping service $SERVICE" >> $LOGFILE
 
 		PIDFILE=`${CMD_STOP} |awk '/PID/{gsub(".*[(]","",$0);gsub("[)].*","",$0); print $0}'`
