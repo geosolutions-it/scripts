@@ -19,7 +19,8 @@
 ### You must customize this properties ###
 
 # the JAVA HOME directory
-JAVA=/usr/bin/java
+JAVA_HOME=#write your java home there
+JAVA=$JAVA_HOME/bin/java #write the JAVA_HOME relative path of the java binary (usually /bin/java)
 # unprivileged user running Tomcat server
 tomcatuser=tomcat
 
