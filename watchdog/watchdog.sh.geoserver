@@ -35,8 +35,8 @@
 # !make sure to implement the url_test logic also into the bottom function
 #URL=http://192.168.1.106:8484/figis/geoserver/styles/default_point.sld
 
-GSURL=http://127.0.0.1:8484/figis/geoserver
-WFSURL="$GSURL/wfs?request=GetFeature&typeName=fifao:FAO_MAJOR&propertyName=F_AREA&maxfeatures=1"
+GSURL=http://localhost/geoserver
+WFSURL="$GSURL/wfs?service=wfs&version=1.1.0&request=GetFeature&typeName=topp:tasmania_cities&propertyName=ADMIN_NAME&maxfeatures=1"
 
 #set the connection timeout (in seconds)
 TIMEOUT=30
@@ -48,20 +48,20 @@ TOMCAT_TIMEOUT=50
 # used to filter the process (to get the pid)
 # use: ps -efl
 # to see what you have to filter
-FILTER="Tomcat_Figis/geoserver"
+FILTER="geoserver"
 
 # the service to restart
 # should be a script placed here:
 # /etc/init.d/
 # 
 SERVICE="geoserver"
-CMD_START="/usr/local/Tomcat_Figis/bin/startup.sh.${SERVICE}" 
-CMD_STOP="/usr/local/Tomcat_Figis/bin/shutdown.sh.${SERVICE}"
+CMD_START="sudo service ${service} start"
+CMD_STOP="sudo service ${service} stop"
 
 # the output file to use as log
 # must exists otherwise the stdout will be used
 # NOTE: remember to logrotate this file!!!
-LOGFILE="/var/tomcat/server_1/logs/watchdog.log.geoserver"
+LOGFILE="/var/log/geoserver/watchdog.log.geoserver"
 
 # maximum tries to perform a quick restart
 # when the service fails to be started a quick (30 sec)
