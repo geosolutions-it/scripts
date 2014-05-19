@@ -84,7 +84,7 @@ url_test()
    # OUTPUT=$(wget -O - -T "${TIMEOUT}" --proxy=off ${WFSURL} >> "${LOGFILE}" 2>&1)
    curl --max-time $TIMEOUT $WFSURL > $TMPFILE 2>> $LOGFILE
 
-   if grep 'FeatureCollection numberOfFeatures="1"' $TMPFILE ; then
+   if grep 'numberOfFeatures="1"' $TMPFILE ; then
         return 0
    else
         return 1
