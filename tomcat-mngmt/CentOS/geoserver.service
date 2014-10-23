@@ -1,0 +1,17 @@
+#Required only if running on CentOS7 due to the migration from init to SystemV process manager
+#You should put this file in /usr/lib/systemd/system
+#IMPORTANT rename this file as <service_name>.service 
+#often the service name for geoserver is simply geoserver
+
+[Unit]
+Description=Start/Stop geoserver
+#RequiresMountsFor=/ha/datigis /ha/geoserver
+
+[Service]
+Type=oneshot
+ExecStart=/etc/init.d/geoserver start
+ExecStop=/etc/init.d/geoserver stop
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
