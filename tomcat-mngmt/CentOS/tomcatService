@@ -44,7 +44,8 @@ CATALINA_HOME=/opt/apache-tomcat-6.0.35
 
 #script used to startup tomcat
 tomcatRunner=/etc/init.d/tomcatRunner
-pidfile=/var/run/tomcat/$servicename
+piddir=/var/run/tomcat
+pidfile=$piddir/$servicename
 lockfile=/var/lock/subsys/$servicename
 #runsecure=1 #starts tomcat with java security
 runsecure=0
@@ -76,6 +77,13 @@ if [ -r "$CATALINA_BASE"/conf/logging.properties ]; then
 fi
 
 #### End of settings #####
+
+#check if the piddir exist
+if [ ! -d "$piddir" ]; then
+  echo "PID directory not found, going to create the directory $piddir"
+  mkdir -p $piddir
+  chown -R $tomcatuser:$tomcatuser $piddir
+fi
 
 # build java command to start Tomcat
 command="$JAVA $JAVA_OPTS $LOGGING_CONFIG $CATALINA_OPTS $LOGGING_CONFIG \
