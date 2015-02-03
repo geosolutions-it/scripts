@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #The MIT License
 #
 #Copyright (c) 2011 GeoSolutions S.A.S.
@@ -75,10 +74,10 @@ backup)
 	exit;
    	;;
 restore)
-	# move the old directory 
-	mv ${DATA_DIR} ${BACKUPDIR}moved
 	#remove the old data dir
-	rm -Rf ${BACKUPDIR}moved
+	rm -Rf ${BACKUP_DIR}moved
+	# move the old directory 
+	mv ${DATA_DIR} ${BACKUP_DIR}moved
 	mkdir ${DATA_DIR}
    	gs_data_dir_restore
 	echo "restore finished"
