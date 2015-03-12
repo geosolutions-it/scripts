@@ -308,8 +308,8 @@ getCurlOptions
 RESPONSE=$($CURL -u $auth -H "Content-type: text/xml" -H "Accept: text/xml" -XPOST $CURL_ARGS -i -d "$REQUEST_BODY" "$url" )
 
 # Parse response
-STATUS=”$(echo $RESPONSE | grep HTTP/1.1 | tail -1 | awk {'print $2'})”
-STATUSTEXT=”$(echo $RESPONSE | grep HTTP/1.1 | tail -1 | awk {'print $3'})”
+STATUS=$(echo $RESPONSE | grep HTTP/1.1 | tail -1 | awk {'print $2'})
+STATUSTEXT=$(echo $RESPONSE | grep HTTP/1.1 | tail -1 | awk {'print $3'})
 
 
 if [ -n "$verbose" ];
