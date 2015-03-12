@@ -320,12 +320,11 @@ fi
 
 if [ "$STATUS" != 200 ];
 then
-    >&2 echo "Remote service \""$url"\" error. HTTP Status: $STATUS"
-    >&2 $RESPONSE
+    >&2 echo "ERROR: Remote service \""$url"\" returned error. HTTP Status: $STATUS"
     exit 1
     
 else
-    echo "SUCCESS"
+    echo "SUCCESS" #maybe no output on standard output?
     exit 0
 fi
 
