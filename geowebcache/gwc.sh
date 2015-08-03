@@ -9,6 +9,13 @@
 # ./gwc.sh seed topp:states epsg:4326 -b -180 -90 180 90 -zs 5 -ze 6
 #  # seed all with TIME parameter
 # ./gwc.sh seed topp:states epsg:4326 -p TIME 2001-12-12T18:00:00.0Z 
+# 
+# Copyright 2015, GeoSolutions Sas.
+# All rights reserved.
+# 
+# This source code is licensed under the BSD-style license found in the
+# LICENSE file in the root directory of this source tree.
+# 
 ##############################################################################
 
 ##############################################################################
