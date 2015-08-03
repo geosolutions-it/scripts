@@ -88,7 +88,7 @@ getBody()
         PARAMETERS="${PARAMETERS}
         <entry>
           <string>${PARAMETERS_KEYS[i]}</string>
-          <string>${PARAMETERS_VALUES[i]}</string>
+	  <string><![CDATA[${PARAMETERS_VALUES[i]}]]></string>
         </entry>"
     done
 
@@ -230,6 +230,11 @@ do
 	      threadCount="$2" # You may want to check validity of $2
 	      shift 2
 	  ;;
+      
+      -f | --format)
+              format="$2" # You may want to check validity of $2
+              shift 2
+          ;; 
       
       -u | --url)
 	      URL="$2" # You may want to check validity of $2
