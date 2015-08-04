@@ -10,6 +10,9 @@
 #  # seed all with TIME parameter
 # ./gwc.sh seed topp:states epsg:4326 -p TIME 2001-12-12T18:00:00.0Z 
 # 
+################################################################################
+#
+# author: Lorenzo Natali - lorenzo.natali@geo-solutions.it
 # Copyright 2015, GeoSolutions Sas.
 # All rights reserved.
 # 
