@@ -158,12 +158,12 @@ do
         if [ "$bname" == "${Shapefiles[$i]}" ]
         then
 	    echo "Processing Vector: $file" >> $LOGFILE
-            ogr2ogr -f "PostgreSQL" PG:"host=$DBHOST user=$DBUSER dbname=npa password=$DBPASS" $HARVEST_FOLDER/new_data_tmp/shp/${Shapefiles[$i]} -nln ${Layers[$i]} ${Opts[$i]}
+            ogr2ogr -f "PostgreSQL" PG:"host=$DBHOST user=$DBUSER dbname=dbname password=$DBPASS" $HARVEST_FOLDER/new_data_tmp/shp/${Shapefiles[$i]} -nln ${Layers[$i]} ${Opts[$i]}
             found="true"
 
 	    # truncating cache
 	    echo "Truncating cache for Layer: ${Layers[$i]}" >> $LOGFILE
-            ./gwc.sh masstruncate npa:${Layers[$i]} -a $user:$password -u http://localhost:8080/geoserver/gwc/rest
+            ./gwc.sh masstruncate dbname:${Layers[$i]} -a $user:$password -u http://localhost:8080/geoserver/gwc/rest
             break
         fi
     done
