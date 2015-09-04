@@ -31,7 +31,8 @@
 ############################################################
 
 # the url to use to test the service
-URL=http://90.147.39.246/geoserver/styles/default_point.sld
+SERVER_IP=127.0.0.1
+URL=http://$SERVER_IP/geoserver/styles/default_point.sld
 #URL=http://10.20.2.4:8080/ergorr/
 #URL=http://10.20.2.4:9090/geobatch/
 #URL=http://localhost:8080/ergorr/
