@@ -1,0 +1,10 @@
+Usage: wms_request.py [-count n] [-region minx miny maxx maxy]
+                    [-minres minres] [-maxres maxres]
+                    [-maxsize width height] [-minsize width height]
+
+-count: number of records to generate
+-region: max bounding box of the samples
+-minres: minimal resolutions  (native or bigger to test oversampling)
+-maxres: la risoluzione massima (last overview resolutions or more, to do downsampling)
+-maxsize: max image size e.g. 1024 1024
+-minsize: min image size. e.g.  128 128
