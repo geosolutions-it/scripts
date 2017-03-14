@@ -1,0 +1,69 @@
+Example:
+
+tiled_request.py -count 10 -region -90 -60 140 70 -gridset_dir gridsets -gridset Test4326 -levels 2,3,1 -verbose
+
+
+-count 10 create 10 requests
+-region -90 -60 140 70 find 1 tile in this bbox, aligning to the gridset
+-gridset_dir gridsets gridsets directory of GWC (copied from the data directory)
+-gridset EPSG:4326  gridset name
+-levels 2,3,1 zoom levels from where extract tiles
+-verbose (for debug purpose only)
+
+The output has these columns:
+width;height;bbox
+
+Sample output:
+256;256;60.0,-10.0,140.0,70.0
+256;256;-60.0,-10.0,-20.0,30.0
+256;256;-60.0,-50.0,-20.0,-10.0
+256;256;-20.0,-10.0,20.0,30.0
+256;256;-20.0,-10.0,20.0,30.0
+256;256;20.0,30.0,60.0,70.0
+256;256;60.0,30.0,100.0,70.0
+256;256;20.0,-50.0,60.0,-10.0
+256;256;-20.0,-10.0,20.0,30.0
+256;256;20.0,-50.0,60.0,-10.0
+
+
+Optional -srs parameter will add the  EPSG as the last element
+
+Sample output with  -srs parameter:
+256;256;60.0,-50.0,100.0,-10.0;EPSG:4326
+256;256;-60.0,-10.0,-20.0,30.0;EPSG:4326
+256;256;-60.0,-50.0,-20.0,-10.0;EPSG:4326
+256;256;60.0,-10.0,100.0,30.0;EPSG:4326
+256;256;60.0,-10.0,140.0,70.0;EPSG:4326
+256;256;60.0,-10.0,100.0,30.0;EPSG:4326
+256;256;-20.0,30.0,20.0,70.0;EPSG:4326
+256;256;60.0,-10.0,140.0,70.0;EPSG:4326
+256;256;-60.0,30.0,-20.0,70.0;EPSG:4326
+256;256;-20.0,-10.0,20.0,30.0;EPSG:4326
+
+
+You can also specify a auxiliary file to add parameters on the begining of the rows.
+The result will be a cartesian product of the 2 files.
+This is useful if you want to add constant parameters (such as layer name, time)
+
+Sample Aux file time.csv:
+2015-01-06T00:00:00.000Z
+2015-01-07T00:00:00.000Z
+
+Sample usage: 
+
+tiled_request.py -count 5 -region -90 -60 140 70 -gridset_dir defs -auxiliary_csv time.csv -gridset Test4326 -levels 2,3,1 --srs
+
+Output:
+2015-01-06T00:00:00.000Z;256;256;20.0,-50.0,60.0,-10.0;EPSG:4326
+2015-01-07T00:00:00.000Z;256;256;20.0,-50.0,60.0,-10.0;EPSG:4326
+2015-01-06T00:00:00.000Z;256;256;20.0,-10.0,60.0,30.0;EPSG:4326
+2015-01-07T00:00:00.000Z;256;256;20.0,-10.0,60.0,30.0;EPSG:4326
+2015-01-06T00:00:00.000Z;256;256;100.0,30.0,140.0,70.0;EPSG:4326
+2015-01-07T00:00:00.000Z;256;256;100.0,30.0,140.0,70.0;EPSG:4326
+2015-01-06T00:00:00.000Z;256;256;20.0,-50.0,60.0,-10.0;EPSG:4326
+2015-01-07T00:00:00.000Z;256;256;20.0,-50.0,60.0,-10.0;EPSG:4326
+2015-01-06T00:00:00.000Z;256;256;60.0,-50.0,100.0,-10.0;EPSG:4326
+2015-01-07T00:00:00.000Z;256;256;60.0,-50.0,100.0,-10.0;EPSG:4326
+
+
+
