@@ -8,9 +8,9 @@ from gwctask import GWCTask
 from utils import tasks_to_str
 from pprint import pprint, pformat
 
-gwc_rest_url="http://localhost:8080/geoserver/gwc/rest"
-username = "admin"
-password = "geoserver"
+GWC_REST_URL="http://localhost:8080/geoserver/gwc/rest"
+USERNAME = "admin"
+PASSWORD = "geoserver"
 
 GLOBAL_TIMEOUT = 1800
 LOCAL_TIMEOUT = 60
@@ -30,9 +30,9 @@ class TestGWCInstance(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         TestGWCInstance.gwc = GWCInstance(
-            gwc_rest_url = gwc_rest_url,
-            username = username,
-            password = password
+            gwc_rest_url = GWC_REST_URL,
+            username = USERNAME,
+            password = PASSWORD
         )
         print("setUpClass: " + cls.__name__ + " set up")
         print
