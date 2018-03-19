@@ -38,17 +38,33 @@ class GWCInstance:
         elif gwctask.request['type'] == 'masstruncate':
             layer = gwctask.request['name']
             url = '/'.join(
-                [url, "/masstruncate/{}.json".format(layer).strip('/')]
+                [url, "/masstruncate".strip('/')]
             )
-            payload = json.dumps({'truncateLayer': gwctask.request}, indent=4)
+            payload = "<truncateLayer><layerName>{}</layerName></truncateLayer>".format(layer)
         try:
             r = requests.post(url, auth=(self.username, self.password), data=payload)
-        except requests.ConnectionError:
-            print("Cannot connect to GWC instance")
+            r.raise_for_status()
+        except requests.Timeout as e:
+            print("Cannot connect to GWC instance. Request Timeout")
+            print(e)
+            return False
+        except requests.ConnectionError as e:
+            print("Cannot connect to GWC instance. Connection Error")
+            print(e)
+            return False
+        except requests.TooManyRedirects as e:
+            print("Cannot connect to GWC instance. Too many redirects")
+            print(e)
             return None
-        if r.status_code != requests.codes.ok:
+        except requests.HTTPError as e:
             print("HTTP request failed with code {}".format(r.status_code))
-            return None
+            print(e)
+            return False
+        except requests.RequestException as e:
+            print("HTTP request failed")
+            print(e)
+            return False
+        return True
 
     def kill_tasks(self, layer=None, filter='all'):
         """ Kill running tasks"""

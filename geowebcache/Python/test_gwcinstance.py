@@ -77,7 +77,7 @@ class TestGWCInstance(unittest.TestCase):
         )
 
         print( "Submitting Task: \n" + str(task))
-        TestGWCInstance.gwc.submit_task(task)
+        assert TestGWCInstance.gwc.submit_task(task) is not False
 
         time.sleep(1)
         tasks = TestGWCInstance.gwc.get_tasks()
@@ -101,7 +101,7 @@ class TestGWCInstance(unittest.TestCase):
             threadCount=1
         )
         print( "Submitting Task: \n" + str(task))
-        TestGWCInstance.gwc.submit_task(task)
+        assert TestGWCInstance.gwc.submit_task(task) is not False
 
         time.sleep(1)
         tasks = TestGWCInstance.gwc.get_tasks()
@@ -121,7 +121,7 @@ class TestGWCInstance(unittest.TestCase):
             threadCount=1
         )
         print("Submitting Task: \n" + str(task))
-        TestGWCInstance.gwc.submit_task(task)
+        assert TestGWCInstance.gwc.submit_task(task) is not False
 
         tasks = TestGWCInstance.gwc.get_tasks()
         assert len(tasks) == 1
@@ -144,7 +144,7 @@ class TestGWCInstance(unittest.TestCase):
             threadCount=1
         )
         print( "Submitting Task: \n" + str(task))
-        TestGWCInstance.gwc.submit_task(task)
+        assert TestGWCInstance.gwc.submit_task(task) is not False
 
         tasks = TestGWCInstance.gwc.get_tasks()
         assert len(tasks) == 1
@@ -163,7 +163,7 @@ class TestGWCInstance(unittest.TestCase):
             threadCount=1
         )
         print( "Submitting Task: \n" + str(task))
-        TestGWCInstance.gwc.submit_task(task)
+        assert TestGWCInstance.gwc.submit_task(task) is not False
 
         task = GWCTask(
             name="topp:tasmania_roads",
@@ -175,7 +175,7 @@ class TestGWCInstance(unittest.TestCase):
             threadCount=1
         )
         print( "Submitting Task: \n" + str(task))
-        TestGWCInstance.gwc.submit_task(task)
+        assert TestGWCInstance.gwc.submit_task(task) is not False
 
         tasks = TestGWCInstance.gwc.get_tasks()
         assert len(tasks) == 2
