@@ -49,6 +49,7 @@ class GWCTask:
                 self.request['parameters'] = {'entry': entry}
 
         elif type in ('masstruncate'):
+            self.request = {}
             if name is None:
                 raise ValueError('GWCTask "name" cannot be None for "{}" operation'.format(type))
             self.request['name'] = name
