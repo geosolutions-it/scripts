@@ -9,7 +9,7 @@ GWC_TASK_STATUS = ['ABORTED', 'PENDING', 'RUNNING', 'DONE']
 
 class GWCInstance:
     """ GWCInstance """
-    def __init__(self, gwc_rest_url, username, password):
+    def __init__(self, gwc_rest_url, username, password, SSL_cert_verify=True):
         if gwc_rest_url is None:
             raise ValueError('GWCInstance "gwc_rest_url" cannot be None')
         if username is None:
@@ -20,6 +20,7 @@ class GWCInstance:
         self.gwc_rest_url = gwc_rest_url
         self.username = username
         self.password = password
+        self.SSL_cert_verify = SSL_cert_verify
 
     def is_busy(self):
         """ Return True if there is any task running """
@@ -42,7 +43,7 @@ class GWCInstance:
             )
             payload = "<truncateLayer><layerName>{}</layerName></truncateLayer>".format(layer)
         try:
-            r = requests.post(url, auth=(self.username, self.password), data=payload)
+            r = requests.post(url, auth=(self.username, self.password), data=payload, verify=self.SSL_cert_verify)
             r.raise_for_status()
         except requests.Timeout as e:
             print("Cannot connect to GWC instance. Request Timeout")
@@ -77,7 +78,7 @@ class GWCInstance:
             url = '/'.join( [url, "/seed".strip('/')] )
         payload = 'kill_all={}'.format(filter)
         try:
-            r = requests.post(url, auth=(self.username, self.password), data=payload)
+            r = requests.post(url, auth=(self.username, self.password), data=payload, verify=self.SSL_cert_verify)
         except requests.ConnectionError:
             print("Cannot connect to GWC instance")
             return None
@@ -96,7 +97,7 @@ class GWCInstance:
                 [self.gwc_rest_url, "/seed/{}.json".format(layer).strip('/')]
             )
         try:
-            r = requests.get(url, auth=(self.username, self.password))
+            r = requests.get(url, auth=(self.username, self.password), verify=self.SSL_cert_verify)
         except requests.ConnectionError:
             print("Cannot connect to GWC instance")
             return None
