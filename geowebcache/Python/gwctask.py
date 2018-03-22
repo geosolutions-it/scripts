@@ -13,7 +13,7 @@ class GWCTask:
 
     request = None
 
-    def __init__(self, name,  type, bounds=None, srs=None, zoomStart=None, zoomStop=None, format=None, parameters=None, threadCount=None):
+    def __init__(self, name,  type, bounds=None, srs=None, gridSetId=None, zoomStart=None, zoomStop=None, format=None, parameters=None, threadCount=None):
 
         if type in ('seed', 'truncate', 'reseed'):
             self.request = {}
@@ -47,7 +47,8 @@ class GWCTask:
                     d = {'string': [param[0], param[1]]}
                     entry.append(d)
                 self.request['parameters'] = {'entry': entry}
-
+            if gridSetId is not None:
+                self.request['gridSetId'] = gridSetId
         elif type in ('masstruncate'):
             self.request = {}
             if name is None:
