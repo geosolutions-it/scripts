@@ -13,7 +13,7 @@ from gwcinstance import GWCInstance
 from gwctask import GWCTask
 
 # sleep time between 'is_busy' requests to GWC
-POLL_TIME = 1
+POLL_TIME = 5
 
 # defaults
 NAME = 'earthmodel:Natural_Earth'
@@ -21,10 +21,10 @@ BOUNDS = None  # example: {"coords":{"double":["-14.0","22.0","66.0","72.0"]}}
 SRS = '4326'
 GRIDSET_ID = 'EPSG:4326_512'
 ZOOM_START = 1
-ZOOM_STOP = 6
+ZOOM_STOP = 4
 IMAGE_FORMAT = "image/png"
 TYPE = None
-THREAD_COUNT = 1
+THREAD_COUNT = 3
 
 request_defaults = {
     "name": NAME,
@@ -58,7 +58,7 @@ layers_unsequenced = filter(None, layers_unsequenced.splitlines())
 # initialize logging
 logger = logging.getLogger(__name__)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logl = logging.DEBUG if debug_enabled == 'true' else logging.INFO
+logl = logging.DEBUG if debug_enabled.lower() == 'true' else logging.INFO
 logger.setLevel(logl)
 ch = logging.StreamHandler()
 ch.setFormatter(formatter)
@@ -92,7 +92,7 @@ logger.debug("""
 )
 
 # instntiate GWCInstance
-gwc = GWCInstance(gwc_rest_url=gwc_rest_url,username=geoserver_username, password=geoserver_password, SSL_cert_verify=False)
+gwc = GWCInstance(gwc_rest_url=gwc_rest_url,username=geoserver_username, password=geoserver_password, SSL_cert_verify=True)
 
 # masstruncate UnSequenced Layers
 logger.info("Masstruncate UnSequenced Layers")
