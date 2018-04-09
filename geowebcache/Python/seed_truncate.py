@@ -46,14 +46,38 @@ geoserver_url = os.environ['GeoServerURL']
 geoserver_username = os.environ['GeoServerUsername']
 geoserver_password = os.environ['GeoServerPassword']
 
-layers_sequenced = os.environ['LayersSequenced']
-layers_sequenced = filter(None, layers_sequenced.splitlines())
+if 'LayersSequenced' in os.environ:
+    layers_sequenced = os.environ['LayersSequenced']
+    layers_sequenced = filter(None, layers_sequenced.splitlines())
+else:
+    layers_sequenced = list()
 
-sequence_numbers = os.environ['SequenceNumbers']
-sequence_numbers = filter(None, sequence_numbers.splitlines())
+if 'SequenceNumbers' in os.environ:
+    sequence_numbers = os.environ['SequenceNumbers']
+    sequence_numbers = filter(None, sequence_numbers.splitlines())
+else:
+    sequence_numbers = list()
 
-layers_unsequenced = os.environ['LayersUnsequenced']
-layers_unsequenced = filter(None, layers_unsequenced.splitlines())
+if 'LayersUnsequenced' in os.environ:
+    layers_unsequenced = os.environ['LayersUnsequenced']
+    layers_unsequenced = filter(None, layers_unsequenced.splitlines())
+else:
+    layers_unsequenced = list()
+
+if 'HTTP_PROXY' in os.environ:
+    http_proxy = os.environ['HTTP_PROXY']
+else:
+    http_proxy = None
+
+if 'HTTPS_PROXY' in os.environ:
+    https_proxy = os.environ['HTTP_PROXY']
+else:
+    https_proxy = None
+
+proxyDict = {
+    "http"  : http_proxy,
+    "https" : https_proxy
+}
 
 # initialize logging
 logger = logging.getLogger(__name__)
