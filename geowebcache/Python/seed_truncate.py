@@ -74,10 +74,13 @@ if 'HTTPS_PROXY' in os.environ:
 else:
     https_proxy = None
 
-proxyDict = {
-    "http"  : http_proxy,
-    "https" : https_proxy
-}
+if http_proxy or https_proxy:
+    proxies = {
+        "http"  : http_proxy,
+        "https" : https_proxy
+    }
+else:
+    proxies = None
 
 # initialize logging
 logger = logging.getLogger(__name__)
@@ -116,7 +119,8 @@ logger.debug("""
 )
 
 # instntiate GWCInstance
-gwc = GWCInstance(gwc_rest_url=gwc_rest_url,username=geoserver_username, password=geoserver_password, SSL_cert_verify=True)
+gwc = GWCInstance(gwc_rest_url=gwc_rest_url,username=geoserver_username, password=geoserver_password,
+                  SSL_cert_verify=True, proxies=proxies)
 
 # masstruncate UnSequenced Layers
 logger.info("Masstruncate UnSequenced Layers")
