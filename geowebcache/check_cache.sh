@@ -3,22 +3,13 @@ USER="admin"
 PASSWORD="password"
 
 #GEOSERVER GWC REST URL
-GWCRESTURLM="http://10.50.5.150:8080/geoserver_master/gwc/rest/"
-GWCRESTURL1="http://10.50.5.151:8080/geoserver/gwc/rest/"
-GWCRESTURL2="http://10.50.5.152:8080/geoserver/gwc/rest/"
-GWCRESTURL3="http://10.50.5.153:8080/geoserver/gwc/rest/"
-GWCRESTURL4="http://10.50.5.154:8080/geoserver/gwc/rest/"
 
-# Use the rest URL of geoserver slave 1 as default
-GWCRESTURL=$GWCRESTURL1
-
-# Use the rest URL of geoserver slave 1 as default
-GWCRESTURL=$GWCRESTURL1
+GWCRESTURL="http://localhost:8080/geoserver/gwc/rest/"
 
 #THE REGEX TO PARSE
 # e.g. 
-# "^publiacqua\\:" All layers for publiacqua workspace
-# "^publiacqua\\:fgn_allaccio_asse$" The layer publiacqua:fgn_allaccio_asse
+# "^workspacename\\:" All layers for "workspacename" workspace
+# "^workspacename\\:layername$" The layer workspacename:layername
 REGEX="$1"
 
 #HEADERS
