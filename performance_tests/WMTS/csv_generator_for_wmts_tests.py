@@ -4,15 +4,17 @@ from lxml import etree as ET
 
 #Layer properties inputs
 
-min_level = int(input("Please enter the minimun bound of the level:  "))
-max_level = int(input("Please enter the maximum bound of the level:  "))
-requests = int(input("Please enter the number of the Requests:  "))
-layer_name = input("Please enter the Layer Identifier in quotes:  ")
-epsg = input("Please enter the EPSG (e.g. 'EPSG:4326'):  ")
+min_level = int(input("Please enter the minimun bound of the level:"))
+max_level = int(input("Please enter the maximum bound of the level:"))
+requests = int(input("Please enter the number of the Requests:"))
+layer_name = input("Please enter the Layer Identifier in quotes or double quotes:")
+epsg = input("Please enter the EPSG in quotes or double quotes (e.g. 'EPSG:4326'):")
+path = input("Please enter the Path of your workspace followed by the CSV filename in quotes:")
 
-myfile = open('C:\Path', 'w')
+myfile = open(path, 'w')
 
 #Reading the GetCapabilities xml file  
+#Check the name of the xml file that you have downloaded and if not the same replace it in the value of the $wmts_getcap parameter here below 
 
 wmts_getcap="wmts-getcapabilities.xml"
 tree = ET.parse(wmts_getcap)
@@ -22,6 +24,11 @@ layers = tree.findall('{http://www.opengis.net/wmts/1.0}Contents/{http://www.ope
 #Creating a dictionary from the layers data in the xml
 
 tilematrixdict = {}
+
+# The following 3 for loops are needed to parse the xml file pointing the layers first, then all its child tree such as the title, identifier, 
+# tilematrixset until finding the tile matrix limit in order to extract the min tile row and col 
+ 
+
 for layer in layers:
     title = layer.find("{http://www.opengis.net/ows/1.1}Title")
     identifier = layer.find("{http://www.opengis.net/ows/1.1}Identifier")
@@ -51,7 +58,7 @@ for layer in layers:
 			
 #Writing a CSV file containing random levels requests  
 			
-myfile = open('C:\Path', 'w')
+myfile = open(path, 'w')
 
 for i in range(1,requests + 1): 
     dict = tilematrixdict[layer_name][epsg]
@@ -59,7 +66,9 @@ for i in range(1,requests + 1):
     row = random.randint(dict[level][0], dict[level][1])
     col = random.randint(dict[level][2], dict[level][3])
     myfile.write((str(level) + ";" + str(col) + ";" + str(row) + '\n')) 
+
+myfile.close()
 	
 print tilematrixdict
 
-input("Press enter to exit")
+#input("Press enter to exit")
