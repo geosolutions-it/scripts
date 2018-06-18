@@ -7,9 +7,9 @@ from lxml import etree as ET
 min_level = int(input("Please enter the minimun bound of the level:"))
 max_level = int(input("Please enter the maximum bound of the level:"))
 requests = int(input("Please enter the number of the Requests:"))
-layer_name = input("Please enter the Layer Identifier in quotes or double quotes:")
-epsg = input("Please enter the EPSG in quotes or double quotes (e.g. 'EPSG:4326'):")
-path = input("Please enter the Path of your workspace followed by the CSV filename in quotes:")
+layer_name = input("Please enter the Layer Identifier:")
+epsg = input("Please enter the EPSG (e.g. EPSG:4326):")
+path = input("Please enter the Path of your workspace followed by the CSV filename:")
 
 myfile = open(path, 'w')
 
@@ -33,10 +33,10 @@ for layer in layers:
     title = layer.find("{http://www.opengis.net/ows/1.1}Title")
     identifier = layer.find("{http://www.opengis.net/ows/1.1}Identifier")
     tileMatrixSets = layer.findall("{http://www.opengis.net/wmts/1.0}TileMatrixSetLink/{http://www.opengis.net/wmts/1.0}TileMatrixSet")
-    print "Layer Title: {}".format(title.text)
+    print("Layer Title: {}".format(title.text))
     _id = "{}".format(identifier.text)
     tilematrixdict[_id] = {}
-    print "Layer Identifier: {}".format(_id)
+    print("Layer Identifier: {}".format(_id))
     for tileMatrixSet in tileMatrixSets:
         _s = "{}".format(tileMatrixSet.text)
         tilematrixdict[_id][_s] = {}
@@ -69,6 +69,6 @@ for i in range(1,requests + 1):
 
 myfile.close()
 	
-print tilematrixdict
+print(tilematrixdict)
 
 #input("Press enter to exit")
