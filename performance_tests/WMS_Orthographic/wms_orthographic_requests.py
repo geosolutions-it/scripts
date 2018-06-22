@@ -2,6 +2,8 @@ import random
 import math
 import csv
 
+#Requests number, Resolution and file path inputs.
+
 requests = int(input("Please enter the number of the Requests:"))
 width = int(input("Please enter the width:"))
 height = int(input("Please enter the height:"))
@@ -10,6 +12,9 @@ path = input("Please enter the Path of your workspace followed by the CSV filena
 r_earth = 6373000
 myfile = open(path, 'w')
 
+#The following While loop will pick a random projection center and a point included in that specific
+#projection in degrees. Then it will transform the coordinates of the point in meters using
+#the equations of the orthographic projection. Finally, it will trace a random bbox centered at that point.  
 
 count = 0
 while (count <= requests):
