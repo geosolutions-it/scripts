@@ -20,47 +20,68 @@ NAME = 'earthmodel:Natural_Earth'
 BOUNDS = None  # example: {"coords":{"double":["-14.0","22.0","66.0","72.0"]}}
 SRS = '4326'
 GRIDSET_ID = 'EPSG:4326_512'
-ZOOM_START = 1
-ZOOM_STOP = 4
+ZOOM_START_SEED = 1
+ZOOM_STOP_SEED = 4
+ZOOM_START_TRUNCATE = 1
+ZOOM_STOP_TRUNCATE = 7
 IMAGE_FORMAT = "image/png"
 TYPE = None
 THREAD_COUNT = 3
 
-request_defaults = {
+request_defaults_seed = {
     "name": NAME,
     "bounds": BOUNDS,
     "srs": {
         "number": SRS
     },
     "gridSetId": GRIDSET_ID,
-    "zoomStart": ZOOM_START,
-    "zoomStop": ZOOM_STOP,
+    "zoomStart": ZOOM_START_SEED,
+    "zoomStop": ZOOM_STOP_SEED,
     "format": IMAGE_FORMAT,
     "type": TYPE,
     "threadCount": THREAD_COUNT
 }
 
+request_defaults_truncate = {
+    "name": NAME,
+    "bounds": BOUNDS,
+    "srs": {
+        "number": SRS
+    },
+    "gridSetId": GRIDSET_ID,
+    "zoomStart": ZOOM_START_TRUNCATE,
+    "zoomStop": ZOOM_STOP_TRUNCATE,
+    "format": IMAGE_FORMAT,
+    "type": TYPE,
+    "threadCount": THREAD_COUNT
+}
+
+
 # fetch Job parameters from environment variables
 debug_enabled = os.environ['DEBUG']
 geoserver_url = os.environ['GeoServerURL']
+geoserver_url = geoserver_url.strip()
 geoserver_username = os.environ['GeoServerUsername']
 geoserver_password = os.environ['GeoServerPassword']
 
 if 'LayersSequenced' in os.environ:
     layers_sequenced = os.environ['LayersSequenced']
     layers_sequenced = filter(None, layers_sequenced.splitlines())
+    layers_sequenced = [s.strip() for s in layers_sequenced]
 else:
     layers_sequenced = list()
 
 if 'SequenceNumbers' in os.environ:
     sequence_numbers = os.environ['SequenceNumbers']
     sequence_numbers = filter(None, sequence_numbers.splitlines())
+    sequence_numbers = [s.strip() for s in sequence_numbers]
 else:
     sequence_numbers = list()
 
 if 'LayersUnsequenced' in os.environ:
     layers_unsequenced = os.environ['LayersUnsequenced']
-    layers_unsequenced = filter(None, layers_unsequenced.splitlines())
+    layers_unsequenced = filter(None, layers_unsequenced.splitlines())   
+    layers_unsequenced = [s.strip() for s in layers_unsequenced]
 else:
     layers_unsequenced = list()
 
@@ -70,7 +91,7 @@ else:
     http_proxy = None
 
 if 'HTTPS_PROXY' in os.environ:
-    https_proxy = os.environ['HTTP_PROXY']
+    https_proxy = os.environ['HTTPS_PROXY']
 else:
     https_proxy = None
 
@@ -95,10 +116,14 @@ logger.info("""
     GeoServerURL: {}
     GeoServerUsername: {}
     GeoServerPassword: {}
+    HTTP Proxy: {}
+    HTTPS Proxy: {}
 		""".format(
     geoserver_url,
     geoserver_username,
     geoserver_password,
+    http_proxy,
+    https_proxy,
     )
 )
 
@@ -139,14 +164,14 @@ logger.info("Seeding UnSequenced Layers")
 for layer in layers_unsequenced:
     logger.info("\t seeding layer: {}".format(layer))
     task = GWCTask(name=layer, type='seed',
-                   bounds=request_defaults['bounds'],
-                   srs=request_defaults['srs']['number'],
-                   gridSetId=request_defaults['gridSetId'],
-                   zoomStart=request_defaults['zoomStart'],
-                   zoomStop=request_defaults['zoomStop'],
-                   format=request_defaults['format'],
+                   bounds=request_defaults_seed['bounds'],
+                   srs=request_defaults_seed['srs']['number'],
+                   gridSetId=request_defaults_seed['gridSetId'],
+                   zoomStart=request_defaults_seed['zoomStart'],
+                   zoomStop=request_defaults_seed['zoomStop'],
+                   format=request_defaults_seed['format'],
                    parameters=None,
-                   threadCount=request_defaults['threadCount']
+                   threadCount=request_defaults_seed['threadCount']
                    )
     logger.debug(task)
     gwc.submit_task(task)
@@ -157,20 +182,20 @@ for layer in layers_unsequenced:
 
 # truncate Sequenced Layers
 logger.info("Truncating Sequenced Layers")
-for layer in layers_unsequenced:
+for layer in layers_sequenced:
     for seq in sequence_numbers:
-        logger.info("\t tuncating layer:  with Sequence: {}".format(layer, seq))
+        logger.info("\t tuncating layer: {} with Sequence: {}".format(layer, seq))
         task = GWCTask(name=layer, type='truncate',
-                       bounds=request_defaults['bounds'],
-                       srs=request_defaults['srs']['number'],
-                       gridSetId=request_defaults['gridSetId'],
-                       zoomStart=request_defaults['zoomStart'],
-                       zoomStop=request_defaults['zoomStop'],
-                       format=request_defaults['format'],
+                       bounds=request_defaults_truncate['bounds'],
+                       srs=request_defaults_truncate['srs']['number'],
+                       gridSetId=request_defaults_truncate['gridSetId'],
+                       zoomStart=request_defaults_truncate['zoomStart'],
+                       zoomStop=request_defaults_truncate['zoomStop'],
+                       format=request_defaults_truncate['format'],
                        parameters=[
                            ('CQL_FILTER', "seq='{}'".format(seq))
                        ],
-                       threadCount=request_defaults['threadCount']
+                       threadCount=request_defaults_truncate['threadCount']
                        )
         logger.debug(task)
         gwc.submit_task(task)
@@ -179,7 +204,7 @@ for layer in layers_unsequenced:
             time.sleep(POLL_TIME)
 
 
-# seed UnSequenced Layers
+# seed Sequenced Layers
 logger.info("Seeding Sequenced Layers")
 
 # ignoring bounds
@@ -188,16 +213,16 @@ for layer in layers_sequenced:
         logger.info("\t seeding layer: {} with Sequence: {}".format(layer, seq))
         param = ('cql_filter', "seq='{}'".format(seq))
         task = GWCTask(name=layer, type='seed',
-                       bounds=request_defaults['bounds'],
-                       srs=request_defaults['srs']['number'],
-                       gridSetId=request_defaults['gridSetId'],
-                       zoomStart=request_defaults['zoomStart'],
-                       zoomStop=request_defaults['zoomStop'],
-                       format=request_defaults['format'],
+                       bounds=request_defaults_seed['bounds'],
+                       srs=request_defaults_seed['srs']['number'],
+                       gridSetId=request_defaults_seed['gridSetId'],
+                       zoomStart=request_defaults_seed['zoomStart'],
+                       zoomStop=request_defaults_seed['zoomStop'],
+                       format=request_defaults_seed['format'],
                        parameters=[
                            ('CQL_FILTER', "seq='{}'".format(seq))
                        ],
-                       threadCount=request_defaults['threadCount']
+                       threadCount=request_defaults_seed['threadCount']
                        )
         logger.debug(task)
         gwc.submit_task(task)
