@@ -44,6 +44,7 @@ class TestGWCInstance(unittest.TestCase):
         print("tearDownClass: " + cls.__name__ + " tear down")
         print
 
+    # GWC must not be busy to start with
     def setUp(self):
         print("setUp")
         assert not TestGWCInstance.gwc.is_busy()
@@ -55,6 +56,7 @@ class TestGWCInstance(unittest.TestCase):
         while TestGWCInstance.gwc.is_busy():
             time.sleep(1)
         print
+
 
     @timeout_decorator.timeout(LOCAL_TIMEOUT)
     def test_get_tasks(self):
@@ -84,6 +86,7 @@ class TestGWCInstance(unittest.TestCase):
         assert len(tasks) == 1
         print( "Running Tasks: \n{}".format(tasks_to_str(tasks)) )
 
+
     @timeout_decorator.timeout(LOCAL_TIMEOUT)
     def test_submit_task_seed_with_parameters(self):
         """ Test seeding task with parameters """
@@ -96,6 +99,28 @@ class TestGWCInstance(unittest.TestCase):
             ],
             zoomStart=1,
             zoomStop=8,
+            format="image/png8",
+            type="seed",
+            threadCount=1
+        )
+        print( "Submitting Task: \n" + str(task))
+        assert TestGWCInstance.gwc.submit_task(task) is not False
+
+        time.sleep(1)
+        tasks = TestGWCInstance.gwc.get_tasks()
+        assert len(tasks) == 1
+        print( "Running Tasks: \n{}".format(tasks_to_str(tasks)) )
+
+
+    @timeout_decorator.timeout(LOCAL_TIMEOUT)
+    def test_submit_task_seed_with_bounds(self):
+        """ Test seeding task with bbox """
+        task = GWCTask(
+            name="topp:states",
+            srs=4326,
+            bounds=[-124.0,22.0,66.0,72.0],
+            zoomStart=1,
+            zoomStop=4,
             format="image/png8",
             type="seed",
             threadCount=1
@@ -137,6 +162,26 @@ class TestGWCInstance(unittest.TestCase):
                 ('STYLES', "population"),
                 ('CQL_FILTER', "STATE_NAME='Wyoming'")
             ],
+            zoomStart=1,
+            zoomStop=8,
+            format="image/png8",
+            type="truncate",
+            threadCount=1
+        )
+        print( "Submitting Task: \n" + str(task))
+        assert TestGWCInstance.gwc.submit_task(task) is not False
+
+        tasks = TestGWCInstance.gwc.get_tasks()
+        assert len(tasks) == 1
+        print( "Running Tasks: \n{}".format(tasks_to_str(tasks)) )
+
+    @timeout_decorator.timeout(LOCAL_TIMEOUT)
+    def test_submit_task_truncate_with_bounds(self):
+        """ Test truncate task with bounds """
+        task = GWCTask(
+            name="topp:states",
+            srs=4326,
+            bounds=[-124.0, 22.0, 66.0, 72.0],
             zoomStart=1,
             zoomStop=8,
             format="image/png8",

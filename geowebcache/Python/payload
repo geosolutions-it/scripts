@@ -1,0 +1,30 @@
+{
+    "seedRequest": {
+        "name": "topp:states", 
+        "parameters": {
+            "entry": [
+                {
+                    "string": [
+                        "STYLES", 
+                        "population"
+                    ]
+                }, 
+                {
+                    "string": [
+                        "CQL_FILTER", 
+                        "STATE_NAME='Wyoming'"
+                    ]
+                }
+            ]
+        }, 
+        "format": "image/png8", 
+        "zoomStart": 1, 
+        "bounds": null, 
+        "threadCount": 1, 
+        "srs": {
+            "number": 4326
+        }, 
+        "zoomStop": 8, 
+        "type": "seed"
+    }
+}

@@ -16,13 +16,13 @@ from gwctask import GWCTask
 POLL_TIME = 5
 
 # defaults
-NAME = 'earthmodel:Natural_Earth'
-BOUNDS = None  # example: {"coords":{"double":["-14.0","22.0","66.0","72.0"]}}
+NAME = 'tiger:poi'
+BOUNDS = None  # example: [6.70, 36.0, 18.5, 47.2]
 SRS = '4326'
-GRIDSET_ID = 'EPSG:4326_512'
-ZOOM_START_SEED = 1
-ZOOM_STOP_SEED = 4
-ZOOM_START_TRUNCATE = 1
+GRIDSET_ID = 'EPSG:4326'
+ZOOM_START_SEED = 0
+ZOOM_STOP_SEED = 5
+ZOOM_START_TRUNCATE = 0
 ZOOM_STOP_TRUNCATE = 7
 IMAGE_FORMAT = "image/png"
 TYPE = None
@@ -148,6 +148,7 @@ gwc = GWCInstance(gwc_rest_url=gwc_rest_url,username=geoserver_username, passwor
                   SSL_cert_verify=True, proxies=proxies)
 
 # masstruncate UnSequenced Layers
+'''
 logger.info("Masstruncate UnSequenced Layers")
 for layer in layers_unsequenced:
     logger.info("\t tuncating layer: {}".format(layer))
@@ -157,8 +158,8 @@ for layer in layers_unsequenced:
     while(gwc.is_busy()):
         logger.debug("GWC is busy, waiting {} seconds".format(POLL_TIME))
         time.sleep(POLL_TIME)
-
-
+'''
+'''
 # seed UnSequenced Layers
 logger.info("Seeding UnSequenced Layers")
 for layer in layers_unsequenced:
@@ -178,8 +179,8 @@ for layer in layers_unsequenced:
     while(gwc.is_busy()):
         logger.debug("GWC is busy, waiting {} seconds".format(POLL_TIME))
         time.sleep(POLL_TIME)
-
-
+'''
+'''
 # truncate Sequenced Layers
 logger.info("Truncating Sequenced Layers")
 for layer in layers_sequenced:
@@ -202,8 +203,8 @@ for layer in layers_sequenced:
         while(gwc.is_busy()):
             logger.debug("GWC is busy, waiting {} seconds".format(POLL_TIME))
             time.sleep(POLL_TIME)
-
-
+'''
+'''
 # seed Sequenced Layers
 logger.info("Seeding Sequenced Layers")
 
@@ -229,3 +230,24 @@ for layer in layers_sequenced:
         while(gwc.is_busy()):
             logger.debug("GWC is busy, waiting {} seconds".format(POLL_TIME))
             time.sleep(POLL_TIME)
+'''
+layer = 'tiger:marble'
+bounds = [7, 35, 18, 45]
+logger.info("\t seeding layer: {} with Bounds: {}".format(layer, bounds))
+task = GWCTask(name=layer, type='seed',
+               bounds=bounds,
+               srs=request_defaults_seed['srs']['number'],
+               gridSetId=request_defaults_seed['gridSetId'],
+               zoomStart=request_defaults_seed['zoomStart'],
+               zoomStop=request_defaults_seed['zoomStop'],
+               format=request_defaults_seed['format'],
+#               parameters=[
+#                   ('CQL_FILTER', "seq='{}'".format(seq))
+#               ],
+               threadCount=request_defaults_seed['threadCount']
+               )
+logger.debug(task)
+gwc.submit_task(task)
+while (gwc.is_busy()):
+    logger.debug("GWC is busy, waiting {} seconds".format(POLL_TIME))
+    time.sleep(POLL_TIME)

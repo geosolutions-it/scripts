@@ -30,7 +30,7 @@ class GWCInstance:
 
     def submit_task(self, gwctask):
         """" Submit new task """
-        url  = self.gwc_rest_url.strip('/')
+        url = self.gwc_rest_url.strip('/')
         if gwctask.request['type'] in ('seed', 'truncate', 'reseed'):
             layer = gwctask.request['name']
             url = '/'.join(

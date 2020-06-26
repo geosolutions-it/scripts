@@ -36,9 +36,18 @@ class GWCTask:
             self.request['zoomStop'] = zoomStop
             self.request['threadCount'] = threadCount
             self.request['srs'] = {
-                    'number':srs
-                }
+                'number':srs
+            }
             self.request['format'] = format
+
+            if bounds is not None:
+                # bounds is expected to be a list
+                bounds = {
+                    'coords': {
+                        'double': bounds
+                    }
+                }
+                self.request['bounds'] = bounds
 
             if parameters is not None:
                 # parameters is a list of key-value pairs
