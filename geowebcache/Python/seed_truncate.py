@@ -153,7 +153,7 @@ gwc = GWCInstance(gwc_rest_url=gwc_rest_url,username=geoserver_username, passwor
 #layer = 'tiger:marble'
 #bounds = [7, 35, 18, 45]
 logger.info("\t seeding layer: {} with Bounds: {}".format(layers, bounds))
-task = GWCTask(name=layer, type='seed',
+task = GWCTask(name=layers, type='seed',
                bounds=bounds,
                srs=request_defaults_seed['srs']['number'],
                gridSetId=request_defaults_seed['gridSetId'],
