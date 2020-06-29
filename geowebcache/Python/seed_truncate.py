@@ -11,8 +11,6 @@ sys.path.append('./geowebcache/Python')
 
 from gwcinstance import GWCInstance
 from gwctask import GWCTask
-from http.client import HTTPConnection
-HTTPConnection.debuglevel = 1
 
 # sleep time between 'is_busy' requests to GWC
 POLL_TIME = 5
@@ -87,6 +85,11 @@ if 'Bounds' in os.environ:
 else:
     bounds = None()
 
+if 'StateID' in os.environ:
+    state_id = os.environ['state_id']
+else:
+    bounds = None()
+
 if 'HTTP_PROXY' in os.environ:
     http_proxy = os.environ['HTTP_PROXY']
 else:
@@ -151,8 +154,6 @@ logger.debug("""
 gwc = GWCInstance(gwc_rest_url=gwc_rest_url,username=geoserver_username, password=geoserver_password,
                   SSL_cert_verify=True, proxies=proxies)
 
-#layer = 'tiger:marble'
-#bounds = [7, 35, 18, 45]
 for layer in layers:
     logger.info("\t seeding layer: {} with Bounds: {}".format(layer, bounds))
     task = GWCTask(name=layer, type='seed',
@@ -162,9 +163,9 @@ for layer in layers:
                    zoomStart=request_defaults_seed['zoomStart'],
                    zoomStop=request_defaults_seed['zoomStop'],
                    format=request_defaults_seed['format'],
-    #               parameters=[
-    #                   ('CQL_FILTER', "seq='{}'".format(seq))
-    #               ],
+                   parameters=[
+                       ('STATE_ID', state_id)
+                   ],
                    threadCount=request_defaults_seed['threadCount']
                    )
     logger.debug(task)
