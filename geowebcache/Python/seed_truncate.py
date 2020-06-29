@@ -152,21 +152,22 @@ gwc = GWCInstance(gwc_rest_url=gwc_rest_url,username=geoserver_username, passwor
 
 #layer = 'tiger:marble'
 #bounds = [7, 35, 18, 45]
-logger.info("\t seeding layer: {} with Bounds: {}".format(layers, bounds))
-task = GWCTask(name=layers, type='seed',
-               bounds=bounds,
-               srs=request_defaults_seed['srs']['number'],
-               gridSetId=request_defaults_seed['gridSetId'],
-               zoomStart=request_defaults_seed['zoomStart'],
-               zoomStop=request_defaults_seed['zoomStop'],
-               format=request_defaults_seed['format'],
-#               parameters=[
-#                   ('CQL_FILTER', "seq='{}'".format(seq))
-#               ],
-               threadCount=request_defaults_seed['threadCount']
-               )
-logger.debug(task)
-gwc.submit_task(task)
-while (gwc.is_busy()):
-    logger.debug("GWC is busy, waiting {} seconds".format(POLL_TIME))
-    time.sleep(POLL_TIME)
+for layer in layers:
+    logger.info("\t seeding layer: {} with Bounds: {}".format(layer, bounds))
+    task = GWCTask(name=layer, type='seed',
+                   bounds=bounds,
+                   srs=request_defaults_seed['srs']['number'],
+                   gridSetId=request_defaults_seed['gridSetId'],
+                   zoomStart=request_defaults_seed['zoomStart'],
+                   zoomStop=request_defaults_seed['zoomStop'],
+                   format=request_defaults_seed['format'],
+    #               parameters=[
+    #                   ('CQL_FILTER', "seq='{}'".format(seq))
+    #               ],
+                   threadCount=request_defaults_seed['threadCount']
+                   )
+    logger.debug(task)
+    gwc.submit_task(task)
+    while (gwc.is_busy()):
+        logger.debug("GWC is busy, waiting {} seconds".format(POLL_TIME))
+        time.sleep(POLL_TIME)
