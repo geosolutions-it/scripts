@@ -122,6 +122,7 @@ logger.info("""
     GeoServerUsername: {}
     GeoServerPassword: {}
     Bounds: {}
+    StateID: {}
     HTTP Proxy: {}
     HTTPS Proxy: {}
 		""".format(
@@ -129,6 +130,7 @@ logger.info("""
     geoserver_username,
     geoserver_password,
     bounds,
+    state_id,
     http_proxy,
     https_proxy,
     )
@@ -141,11 +143,13 @@ logger.debug("""
 	Layers: {}
 	SequenceNumbers: {}
 	Bounds: {}
+	StateID: {}
 	DEBUG: {}
 		""".format(
     layers,
     sequence_numbers,
     bounds,
+    state_id,
     debug_enabled,
     )
 )
