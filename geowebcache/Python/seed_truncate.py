@@ -90,6 +90,16 @@ if 'StateID' in os.environ:
 else:
     state_id = None()
 
+if 'ZoomStart' in os.environ:
+    zoom_start = os.environ['ZoomStart']
+else:
+    zoom_start = None()
+
+if 'ZoomStop' in os.environ:
+    zoom_stop = os.environ['ZoomStop']
+else:
+    zoom_stop = None()
+
 if 'HTTP_PROXY' in os.environ:
     http_proxy = os.environ['HTTP_PROXY']
 else:
@@ -164,8 +174,8 @@ for layer in layers:
                    bounds=bounds,
                    srs=request_defaults_seed['srs']['number'],
                    gridSetId=request_defaults_seed['gridSetId'],
-                   zoomStart=request_defaults_seed['zoomStart'],
-                   zoomStop=request_defaults_seed['zoomStop'],
+                   zoomStart=zoom_start,
+                   zoomStop=zoom_stop,
                    format=request_defaults_seed['format'],
                    parameters=[
                        ('STATE_ID', state_id)
