@@ -76,6 +76,11 @@ if 'Style' in os.environ:
 else:
     style = None
 
+if 'ImageFormat' in os.environ:
+    image_format = os.environ['ImageFormat']
+else:
+    image_format = None
+
 if 'SequenceNumbers' in os.environ:
     sequence_numbers = os.environ['SequenceNumbers']
     sequence_numbers = filter(None, sequence_numbers.splitlines())
@@ -151,6 +156,9 @@ logger.info("""
     GeoServerURL: {}
     GeoServerUsername: {}
     GeoServerPassword: {}
+    Layer: {}
+    Style: {}
+    ImageFormat: {}
     Bounds: {}
     StateID: {}
     SRS: {}
@@ -162,6 +170,9 @@ logger.info("""
     geoserver_url,
     geoserver_username,
     geoserver_password,
+    layers,
+    style,
+    image_format,
     bounds,
     state_id,
     srs,
@@ -177,6 +188,8 @@ logger.info("GeoServer GWC REST endpoint: {}".format(gwc_rest_url))
 
 logger.debug("""
 	Layers: {}
+	Style: {}
+	ImageFormat: {}
 	SequenceNumbers: {}
 	Bounds: {}
 	StateID: {}
@@ -186,6 +199,8 @@ logger.debug("""
 	DEBUG: {}
 		""".format(
     layers,
+    style,
+    image_format,
     sequence_numbers,
     bounds,
     state_id,
@@ -216,7 +231,7 @@ for layer in layers:
                    gridSetId=gridset_id,
                    zoomStart=zoom_start,
                    zoomStop=zoom_stop,
-                   format=request_defaults_seed['format'],
+                   format=image_format,
                    parameters=parameters,
                    threadCount=thread_count
                    )
