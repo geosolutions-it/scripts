@@ -78,6 +78,14 @@ if 'SequenceNumbers' in os.environ:
 else:
     sequence_numbers = list()
 
+if 'Bounds' in os.environ:
+    bounds = os.environ['Bounds']
+    bounds = filter(None, bounds.splitlines())
+    bounds = [s.strip() for s in bounds]
+else:
+    bounds = None()
+
+
 if 'HTTP_PROXY' in os.environ:
     http_proxy = os.environ['HTTP_PROXY']
 else:
@@ -109,12 +117,14 @@ logger.info("""
     GeoServerURL: {}
     GeoServerUsername: {}
     GeoServerPassword: {}
+    Bounds: {}
     HTTP Proxy: {}
     HTTPS Proxy: {}
 		""".format(
     geoserver_url,
     geoserver_username,
     geoserver_password,
+    bounds,
     http_proxy,
     https_proxy,
     )
@@ -126,10 +136,12 @@ logger.info("GeoServer GWC REST endpoint: {}".format(gwc_rest_url))
 logger.debug("""
 	Layers: {}
 	SequenceNumbers: {}
+	Bounds: {}
 	DEBUG: {}
 		""".format(
     layers,
     sequence_numbers,
+    bounds,
     debug_enabled,
     )
 )
@@ -138,9 +150,9 @@ logger.debug("""
 gwc = GWCInstance(gwc_rest_url=gwc_rest_url,username=geoserver_username, password=geoserver_password,
                   SSL_cert_verify=True, proxies=proxies)
 
-layer = 'tiger:marble'
-bounds = [7, 35, 18, 45]
-logger.info("\t seeding layer: {} with Bounds: {}".format(layer, bounds))
+#layer = 'tiger:marble'
+#bounds = [7, 35, 18, 45]
+logger.info("\t seeding layer: {} with Bounds: {}".format(layers, bounds))
 task = GWCTask(name=layer, type='seed',
                bounds=bounds,
                srs=request_defaults_seed['srs']['number'],
