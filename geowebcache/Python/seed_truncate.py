@@ -11,6 +11,8 @@ sys.path.append('./geowebcache/Python')
 
 from gwcinstance import GWCInstance
 from gwctask import GWCTask
+from http.client import HTTPConnection
+HTTPConnection.debuglevel = 1
 
 # sleep time between 'is_busy' requests to GWC
 POLL_TIME = 5
