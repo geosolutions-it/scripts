@@ -86,9 +86,9 @@ else:
     bounds = None()
 
 if 'StateID' in os.environ:
-    state_id = os.environ['state_id']
+    state_id = os.environ['StateID']
 else:
-    bounds = None()
+    state_id = None()
 
 if 'HTTP_PROXY' in os.environ:
     http_proxy = os.environ['HTTP_PROXY']
