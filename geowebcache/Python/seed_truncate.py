@@ -100,6 +100,16 @@ if 'ZoomStop' in os.environ:
 else:
     zoom_stop = None()
 
+if 'SRS' in os.environ:
+    srs = os.environ['SRS']
+else:
+    srs = None
+
+if 'GridSetID' in os.environ:
+    gridset_id = os.environ['GridSetID']
+else:
+    gridset_id = None
+
 if 'HTTP_PROXY' in os.environ:
     http_proxy = os.environ['HTTP_PROXY']
 else:
@@ -133,6 +143,7 @@ logger.info("""
     GeoServerPassword: {}
     Bounds: {}
     StateID: {}
+    SRS: {}
     HTTP Proxy: {}
     HTTPS Proxy: {}
 		""".format(
@@ -141,6 +152,7 @@ logger.info("""
     geoserver_password,
     bounds,
     state_id,
+    srs,
     http_proxy,
     https_proxy,
     )
@@ -154,12 +166,14 @@ logger.debug("""
 	SequenceNumbers: {}
 	Bounds: {}
 	StateID: {}
+	SRS: {}
 	DEBUG: {}
 		""".format(
     layers,
     sequence_numbers,
     bounds,
     state_id,
+    srs,
     debug_enabled,
     )
 )
@@ -168,12 +182,14 @@ logger.debug("""
 gwc = GWCInstance(gwc_rest_url=gwc_rest_url,username=geoserver_username, password=geoserver_password,
                   SSL_cert_verify=True, proxies=proxies)
 
+#srs = 3395
+#gridSetId = "EPSG:3395_512"
 for layer in layers:
     logger.info("\t seeding layer: {} with Bounds: {}".format(layer, bounds))
     task = GWCTask(name=layer, type='seed',
                    bounds=bounds,
-                   srs=request_defaults_seed['srs']['number'],
-                   gridSetId=request_defaults_seed['gridSetId'],
+                   srs=srs,
+                   gridSetId=gridset_id,
                    zoomStart=zoom_start,
                    zoomStop=zoom_stop,
                    format=request_defaults_seed['format'],
