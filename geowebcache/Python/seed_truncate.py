@@ -71,6 +71,11 @@ if 'Layers' in os.environ:
 else:
     layers = list()
 
+if 'Style' in os.environ:
+    style = os.environ['Style']
+else:
+    style = None
+
 if 'SequenceNumbers' in os.environ:
     sequence_numbers = os.environ['SequenceNumbers']
     sequence_numbers = filter(None, sequence_numbers.splitlines())
@@ -83,22 +88,27 @@ if 'Bounds' in os.environ:
     bounds = bounds.split(',')
     bounds = [s.strip() for s in bounds]
 else:
-    bounds = None()
+    bounds = None
 
 if 'StateID' in os.environ:
     state_id = os.environ['StateID']
 else:
-    state_id = None()
+    state_id = None
 
 if 'ZoomStart' in os.environ:
     zoom_start = os.environ['ZoomStart']
 else:
-    zoom_start = None()
+    zoom_start = None
 
 if 'ZoomStop' in os.environ:
     zoom_stop = os.environ['ZoomStop']
 else:
-    zoom_stop = None()
+    zoom_stop = None
+
+if 'ThreadCount' in os.environ:
+    thread_count = os.environ['ThreadCount']
+else:
+    thread_count = None
 
 if 'SRS' in os.environ:
     srs = os.environ['SRS']
@@ -144,6 +154,8 @@ logger.info("""
     Bounds: {}
     StateID: {}
     SRS: {}
+    GridSetID: {}
+    ThreadCount: {}
     HTTP Proxy: {}
     HTTPS Proxy: {}
 		""".format(
@@ -153,6 +165,8 @@ logger.info("""
     bounds,
     state_id,
     srs,
+    gridset_id,
+    thread_count,
     http_proxy,
     https_proxy,
     )
@@ -167,6 +181,8 @@ logger.debug("""
 	Bounds: {}
 	StateID: {}
 	SRS: {}
+	GridSetID: {}
+	ThreadCount: {}
 	DEBUG: {}
 		""".format(
     layers,
@@ -174,6 +190,8 @@ logger.debug("""
     bounds,
     state_id,
     srs,
+    gridset_id,
+    thread_count,
     debug_enabled,
     )
 )
@@ -184,6 +202,12 @@ gwc = GWCInstance(gwc_rest_url=gwc_rest_url,username=geoserver_username, passwor
 
 #srs = 3395
 #gridSetId = "EPSG:3395_512"
+parameters = list()
+if state_id:
+    parameters.append(('STATE_ID', state_id))
+if style:
+    parameters.append(('STYLES', style))
+
 for layer in layers:
     logger.info("\t seeding layer: {} with Bounds: {}".format(layer, bounds))
     task = GWCTask(name=layer, type='seed',
@@ -193,10 +217,8 @@ for layer in layers:
                    zoomStart=zoom_start,
                    zoomStop=zoom_stop,
                    format=request_defaults_seed['format'],
-                   parameters=[
-                       ('STATE_ID', state_id)
-                   ],
-                   threadCount=request_defaults_seed['threadCount']
+                   parameters=parameters,
+                   threadCount=thread_count
                    )
     logger.debug(task)
     gwc.submit_task(task)
