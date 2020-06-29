@@ -64,12 +64,12 @@ geoserver_url = geoserver_url.strip()
 geoserver_username = os.environ['GeoServerUsername']
 geoserver_password = os.environ['GeoServerPassword']
 
-if 'LayersSequenced' in os.environ:
-    layers_sequenced = os.environ['LayersSequenced']
-    layers_sequenced = filter(None, layers_sequenced.splitlines())
-    layers_sequenced = [s.strip() for s in layers_sequenced]
+if 'Layers' in os.environ:
+    layers = os.environ['Layers']
+    layers = filter(None, layers.splitlines())
+    layers = [s.strip() for s in layers]
 else:
-    layers_sequenced = list()
+    layers = list()
 
 if 'SequenceNumbers' in os.environ:
     sequence_numbers = os.environ['SequenceNumbers']
@@ -77,13 +77,6 @@ if 'SequenceNumbers' in os.environ:
     sequence_numbers = [s.strip() for s in sequence_numbers]
 else:
     sequence_numbers = list()
-
-if 'LayersUnsequenced' in os.environ:
-    layers_unsequenced = os.environ['LayersUnsequenced']
-    layers_unsequenced = filter(None, layers_unsequenced.splitlines())   
-    layers_unsequenced = [s.strip() for s in layers_unsequenced]
-else:
-    layers_unsequenced = list()
 
 if 'HTTP_PROXY' in os.environ:
     http_proxy = os.environ['HTTP_PROXY']
@@ -131,14 +124,12 @@ gwc_rest_url = '/'.join([geoserver_url.strip('/'), "/gwc/rest".strip('/')])
 logger.info("GeoServer GWC REST endpoint: {}".format(gwc_rest_url))
 
 logger.debug("""
-	LayersSequenced: {}
+	Layers: {}
 	SequenceNumbers: {}
-	LayersUnsequenced: {}
 	DEBUG: {}
 		""".format(
-    layers_sequenced,
+    layers,
     sequence_numbers,
-    layers_unsequenced,
     debug_enabled,
     )
 )
@@ -147,90 +138,6 @@ logger.debug("""
 gwc = GWCInstance(gwc_rest_url=gwc_rest_url,username=geoserver_username, password=geoserver_password,
                   SSL_cert_verify=True, proxies=proxies)
 
-# masstruncate UnSequenced Layers
-'''
-logger.info("Masstruncate UnSequenced Layers")
-for layer in layers_unsequenced:
-    logger.info("\t tuncating layer: {}".format(layer))
-    task = GWCTask(name=layer, type='masstruncate')
-    logger.debug(task)
-    gwc.submit_task(task)
-    while(gwc.is_busy()):
-        logger.debug("GWC is busy, waiting {} seconds".format(POLL_TIME))
-        time.sleep(POLL_TIME)
-'''
-'''
-# seed UnSequenced Layers
-logger.info("Seeding UnSequenced Layers")
-for layer in layers_unsequenced:
-    logger.info("\t seeding layer: {}".format(layer))
-    task = GWCTask(name=layer, type='seed',
-                   bounds=request_defaults_seed['bounds'],
-                   srs=request_defaults_seed['srs']['number'],
-                   gridSetId=request_defaults_seed['gridSetId'],
-                   zoomStart=request_defaults_seed['zoomStart'],
-                   zoomStop=request_defaults_seed['zoomStop'],
-                   format=request_defaults_seed['format'],
-                   parameters=None,
-                   threadCount=request_defaults_seed['threadCount']
-                   )
-    logger.debug(task)
-    gwc.submit_task(task)
-    while(gwc.is_busy()):
-        logger.debug("GWC is busy, waiting {} seconds".format(POLL_TIME))
-        time.sleep(POLL_TIME)
-'''
-'''
-# truncate Sequenced Layers
-logger.info("Truncating Sequenced Layers")
-for layer in layers_sequenced:
-    for seq in sequence_numbers:
-        logger.info("\t tuncating layer: {} with Sequence: {}".format(layer, seq))
-        task = GWCTask(name=layer, type='truncate',
-                       bounds=request_defaults_truncate['bounds'],
-                       srs=request_defaults_truncate['srs']['number'],
-                       gridSetId=request_defaults_truncate['gridSetId'],
-                       zoomStart=request_defaults_truncate['zoomStart'],
-                       zoomStop=request_defaults_truncate['zoomStop'],
-                       format=request_defaults_truncate['format'],
-                       parameters=[
-                           ('CQL_FILTER', "seq='{}'".format(seq))
-                       ],
-                       threadCount=request_defaults_truncate['threadCount']
-                       )
-        logger.debug(task)
-        gwc.submit_task(task)
-        while(gwc.is_busy()):
-            logger.debug("GWC is busy, waiting {} seconds".format(POLL_TIME))
-            time.sleep(POLL_TIME)
-'''
-'''
-# seed Sequenced Layers
-logger.info("Seeding Sequenced Layers")
-
-# ignoring bounds
-for layer in layers_sequenced:
-    for seq in sequence_numbers:
-        logger.info("\t seeding layer: {} with Sequence: {}".format(layer, seq))
-        param = ('cql_filter', "seq='{}'".format(seq))
-        task = GWCTask(name=layer, type='seed',
-                       bounds=request_defaults_seed['bounds'],
-                       srs=request_defaults_seed['srs']['number'],
-                       gridSetId=request_defaults_seed['gridSetId'],
-                       zoomStart=request_defaults_seed['zoomStart'],
-                       zoomStop=request_defaults_seed['zoomStop'],
-                       format=request_defaults_seed['format'],
-                       parameters=[
-                           ('CQL_FILTER', "seq='{}'".format(seq))
-                       ],
-                       threadCount=request_defaults_seed['threadCount']
-                       )
-        logger.debug(task)
-        gwc.submit_task(task)
-        while(gwc.is_busy()):
-            logger.debug("GWC is busy, waiting {} seconds".format(POLL_TIME))
-            time.sleep(POLL_TIME)
-'''
 layer = 'tiger:marble'
 bounds = [7, 35, 18, 45]
 logger.info("\t seeding layer: {} with Bounds: {}".format(layer, bounds))
