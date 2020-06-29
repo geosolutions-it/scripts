@@ -80,11 +80,10 @@ else:
 
 if 'Bounds' in os.environ:
     bounds = os.environ['Bounds']
-    bounds = filter(None, bounds.splitlines())
+    bounds = bounds.split(',')
     bounds = [s.strip() for s in bounds]
 else:
     bounds = None()
-
 
 if 'HTTP_PROXY' in os.environ:
     http_proxy = os.environ['HTTP_PROXY']
