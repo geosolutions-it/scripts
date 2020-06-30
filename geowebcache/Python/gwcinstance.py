@@ -23,9 +23,12 @@ class GWCInstance:
         self.SSL_cert_verify = SSL_cert_verify
         self.proxies = proxies
 
-    def is_busy(self):
+    def is_busy(self, layer=None):
         """ Return True if there is any task running """
-        tasks_array = self.get_tasks()
+        if layer is not None:
+            tasks_array = self.get_tasks(layer)
+        else:
+            tasks_array = self.get_tasks()
         return True if len(tasks_array) > 0 else False
 
     def submit_task(self, gwctask):
