@@ -215,8 +215,15 @@ logger.debug("""
 gwc = GWCInstance(gwc_rest_url=gwc_rest_url,username=geoserver_username, password=geoserver_password,
                   SSL_cert_verify=True, proxies=proxies)
 
-#srs = 3395
-#gridSetId = "EPSG:3395_512"
+
+if gwc.is_busy():
+    logger.info("There are already pending tasks in GWC. Waiting for pending tasks to finish before moving on")
+    while (gwc.is_busy()):
+        logger.info(".")
+        time.sleep(POLL_TIME)
+    logger.info("No more pending tasks. Moving on")
+
+# Preparing Parameter filters
 parameters = list()
 if state_id:
     parameters.append(('STATE_ID', state_id))
@@ -224,7 +231,7 @@ if style:
     parameters.append(('STYLES', style))
 
 for layer in layers:
-    logger.info("\t seeding layer: {} with Bounds: {}".format(layer, bounds))
+    logger.info("\t Seeding layer:".format(layer))
     task = GWCTask(name=layer, type='seed',
                    bounds=bounds,
                    srs=srs,
@@ -235,8 +242,11 @@ for layer in layers:
                    parameters=parameters,
                    threadCount=thread_count
                    )
-    logger.debug(task)
+    logger.info("\n" + str(task))
     gwc.submit_task(task)
+
+    logger.info("Waiting for all pending tasks to finish")
     while (gwc.is_busy()):
-        logger.debug("GWC is busy, waiting {} seconds".format(POLL_TIME))
+        logger.info(".")
         time.sleep(POLL_TIME)
+    logger.info("Done. Exiting")
