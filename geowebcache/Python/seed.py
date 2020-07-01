@@ -226,7 +226,7 @@ if gwc.is_busy():
 # Preparing Parameter filters
 parameters = list()
 if state_id:
-    parameters.append(('STATE_ID', state_id))
+    parameters.append(('VIEWPARAMS', 'STATE_ID:'+str(state_id)))
 if style:
     parameters.append(('STYLES', style))
 
