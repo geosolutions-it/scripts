@@ -28,20 +28,6 @@ IMAGE_FORMAT = "image/png"
 TYPE = None
 THREAD_COUNT = 3
 
-request_defaults_seed = {
-    "name": NAME,
-    "bounds": BOUNDS,
-    "srs": {
-        "number": SRS
-    },
-    "gridSetId": GRIDSET_ID,
-    "zoomStart": ZOOM_START_SEED,
-    "zoomStop": ZOOM_STOP_SEED,
-    "format": IMAGE_FORMAT,
-    "type": TYPE,
-    "threadCount": THREAD_COUNT
-}
-
 request_defaults_truncate = {
     "name": NAME,
     "bounds": BOUNDS,
@@ -231,7 +217,7 @@ if style:
     parameters.append(('STYLES', style))
 
 for layer in layers:
-    logger.info("\t Seeding layer:".format(layer))
+    logger.info("\t Truncating layer:".format(layer))
     task = GWCTask(name=layer, type='truncate',
                    bounds=bounds,
                    srs=srs,
