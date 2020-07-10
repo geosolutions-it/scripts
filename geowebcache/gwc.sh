@@ -52,10 +52,12 @@ usage()
 {
 cat << EOF
 usage: $0 <type> <layerName> <gridsetName> [options]
-usage: $0 masstruncate <layerName> [options]  
+usage: $0 masstruncate <layerName> [options] 
+usage: $0 truncateall [options]
  - type :The Operation Type. One of "seed"," reseed","truncate"," masstruncate"
  - layerName :The name of the layer
  - gridsetName: the name of the gridSet (mandatory,except for masstruncate type)
+ - truncateall: deletes all layer caches
  e.g. $0 seed layer epsg:4326
 This script launch seeding and truncate tasks for GeoWebCache
 
@@ -123,6 +125,14 @@ getMassTruncateBody(){
     REQUEST_BODY="<truncateLayer><layerName>${layer}</layerName></truncateLayer>"
 }
 ##############################################
+# FUNCTION getMassTruncateAll
+# sets the body for masstruncate all request
+##############################################
+getMassTruncateAll(){
+    REQUEST_BODY="<truncateAll></truncateAll>"
+}
+
+##############################################
 # FUNCTION getMassTruncateUrl
 # sets the url for masstruncate requests
 ##############################################
@@ -167,14 +177,18 @@ type=$1
 #e.g. met9:airmass
 layer=$2
 
+case "$type" in
 #if type masstruncate the third argument is not required, so minArg is 
 # set properly to shift the arguments and check the argument number validity
-if [ "$type" = "masstruncate" ];
-    then
-    minArg=2
-  else
-     minArg=3
-fi
+  masstruncate) minArg=2
+    ;;
+#if type truncateall second and third argument are not required, so minArg is
+# set properly to shift the arguments and check the argument number validity
+  truncateall) minArg=1
+    ;;
+  *) minArg=3
+    ;;
+esac
 
 if [ "$#" -lt $minArg ]; then
     echo "Illegal number of parameters"
@@ -183,7 +197,7 @@ if [ "$#" -lt $minArg ]; then
 fi
 
 #Check operation type allowed
-if [ "$type" != "seed" ] && [ "$type" != "reseed" ] && [ "$type" != "truncate" ] && [ "$type" != "masstruncate" ]; then
+if [ "$type" != "seed" ] && [ "$type" != "reseed" ] && [ "$type" != "truncate" ] && [ "$type" != "masstruncate" ] && [ "$type" != "truncateall" ]; then
      echo "Operation Unknown : $type"
     usage
     exit
@@ -297,14 +311,14 @@ ZOOMSTOP="<zoomStop>${zoomStop}</zoomStop>"
 
 
 # Generate body depending on the request type
-if [ "$type" = "masstruncate" ];
-    then
-    getMassTruncateBody
-    getMassTruncateUrl
-  else
-    getBody
-    getUrl
-fi
+case "$type" in
+  masstruncate) getMassTruncateBody && getMassTruncateUrl
+    ;;
+  truncateall) getMassTruncateAll && getMassTruncateUrl
+    ;;
+  *) getBody && getUrl
+    ;;
+esac
 
 if [ -n "$verbose" ];
     then
