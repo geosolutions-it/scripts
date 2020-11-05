@@ -1,22 +1,28 @@
+import os
 import csv
 import random
+import requests
 from lxml import etree as ET
 
 #Layer properties inputs
+wmts_getcap="wmts-getcapabilities.xml"
 
 min_level = int(input("Please enter the minimun bound of the level:"))
 max_level = int(input("Please enter the maximum bound of the level:"))
-requests = int(input("Please enter the number of the Requests:"))
+requests_count = int(input("Please enter the number of the Requests:"))
+base_url = None
+if not os.path.exists(wmts_getcap):
+    base_url = input("Please enter the GeoServer URL (e.g. https://<your-server>/geoserver/gwc/service/wmts?):")
+    url = base_url + "request=getcapabilities"
+    r = requests.get(url, allow_redirects=True)
+    open("wmts-getcapabilities.xml", "wb").write(r.content)
 layer_name = input("Please enter the Layer Identifier:")
 epsg = input("Please enter the EPSG (e.g. EPSG:4326):")
 path = input("Please enter the Path of your workspace followed by the CSV filename:")
 
-myfile = open(path, 'w')
-
 #Reading the GetCapabilities xml file  
 #Check the name of the xml file that you have downloaded and if not the same replace it in the value of the $wmts_getcap parameter here below 
 
-wmts_getcap="wmts-getcapabilities.xml"
 tree = ET.parse(wmts_getcap)
 root = tree.getroot()
 layers = tree.findall('{http://www.opengis.net/wmts/1.0}Contents/{http://www.opengis.net/wmts/1.0}Layer')
@@ -60,7 +66,7 @@ for layer in layers:
 			
 myfile = open(path, 'w')
 
-for i in range(1,requests + 1): 
+for i in range(1,requests_count + 1): 
     dict = tilematrixdict[layer_name][epsg]
     level = random.randint(min_level, max_level)
     row = random.randint(dict[level][0], dict[level][1])
