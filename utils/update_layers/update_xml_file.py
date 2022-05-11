@@ -30,6 +30,16 @@ password = sys.argv[3]
 layer_file = sys.argv[4]
 xml_file = sys.argv[5]
 
+if not (username and password and layer_file and xml_file):
+    raise Exception(
+        "System Argument needs to pass: (USERNAME, PASSWORD, LAYERS FILE, XML FILE)"
+    )
+elif ".xml" not in xml_file:
+    raise Exception("Please pass xml file here.")
+elif ".txt" not in layer_file:
+    raise Exception("Please pass txt file for layers.")
+elif "layers" not in URL:
+    raise Exception("Please pass correct layer URL.")
 
 f = open(layer_file, "r")
 layers = f.read()
