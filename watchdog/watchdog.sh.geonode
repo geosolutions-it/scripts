@@ -1,0 +1,120 @@
+#!/bin/bash
+
+#The MIT License
+#
+#Copyright (c) 2011 GeoSolutions S.A.S.
+#http://www.geo-solutions.it
+#
+#Permission is hereby granted, free of charge, to any person obtaining a copy
+#of this software and associated documentation files (the "Software"), to deal
+#in the Software without restriction, including without limitation the rights
+#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+#copies of the Software, and to permit persons to whom the Software is
+#furnished to do so, subject to the following conditions:
+#
+#The above copyright notice and this permission notice shall be included in
+#all copies or substantial portions of the Software.
+#
+#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+#THE SOFTWARE.
+
+############################################################
+# author: carlo cancellieri - ccancellieri@geo-solutions.it
+# date: 7 Apr 2011
+#
+# simple watchdog for webservice
+############################################################
+
+
+# the url to use to test the service
+# !make sure to implement the url_test logic also into the bottom function
+#URL=http://192.168.1.106:8484/figis/geoserver/styles/default_point.sld
+
+GSURL=http://localhost/
+WFSURL="$GSURL"
+
+#set the connection timeout (in seconds)
+TIMEOUT=30
+
+# seconds to wait to recheck the service (this is not cron)
+# tomcat restart time
+DOCKER_TIMEOUT=50
+
+# the service to restart
+# should be a script placed here:
+# /etc/init.d/
+#
+SERVICE="django"
+CMD_START="docker-compose ${SERVICE} -f $HOME/${GEONODE_PROJECT_NAME}/docker-compose.yml start"
+CMD_STOP="docker-compose ${SERVICE} -f $HOME/${GEONODE_PROJECT_NAME}/docker-compose.yml stop"
+
+# the output file to use as log
+# must exists otherwise the stdout will be used
+# NOTE: remember to logrotate this file!!!
+LOGFILE="$HOME/watchdog.geonode.log"
+
+# maximum tries to perform a quick restart
+# when the service fails to be started a quick (30 sec)
+# restart will be tried at least $RETRY times
+# if restart fails RETRY times  the script ends returning '100'
+RETRY=3
+
+################### WATCHDOG #####################
+
+url_test()
+{
+   #try to access tomcat's page
+   #decide on reply
+   # - example testing the exit code
+   #wget -O - -T "${TIMEOUT}" -o "/dev/null" --proxy=off ${WFSURL} >> "${LOGFILE}" 2>&1
+   #url_test "${?}"
+
+   TMPFILE=/tmp/urltest
+   rm $TMPFILE
+   # OUTPUT=$(wget -O - -T "${TIMEOUT}" --proxy=off ${WFSURL} >> "${LOGFILE}" 2>&1)
+   curl --max-time $TIMEOUT $WFSURL > $TMPFILE 2>> $LOGFILE
+
+   if grep -p 'geoServerPublicLocation' $TMPFILE ; then
+        return 0
+   else
+        return 1
+   fi
+}
+
+
+times=0;
+
+if [ ! -e "$LOGFILE" ]; then
+	LOGFILE="/dev/stdout"
+	echo "`date` WatchDog output file: DOES NOT EXIST: using ${LOGFILE}" >> "${LOGFILE}"
+else
+	echo "`date` WatchDog setting output to: ${LOGFILE}" >> "${LOGFILE}"
+fi
+
+
+#loop
+while [ "$times" -lt "$RETRY" ]
+do
+  	url_test
+
+        #testing on url_test exit code
+	if [ "$?" -eq 0 ] ; then
+		echo "`date` WatchDog Status: OK -> $SERVICE is responding at URL $GSURL" >> $LOGFILE
+		exit 0;
+	else
+		echo "`date` WatchDog Status: FAIL -> $SERVICE is NOT responding properly at URL $GSURL" >> $LOGFILE
+		echo "`date` WatchDog Action: Stopping service $SERVICE" >> $LOGFILE
+		${CMD_STOP} >> "${LOGFILE}" 2>&1
+
+		echo "`date` WatchDog Action: Starting service ${SERVICE}" >> "${LOGFILE}"
+		${CMD_START} >> "${LOGFILE}" 2>&1
+
+	fi
+done
+echo "`date` WatchDog Action: Starting service FAILED ${SERVICE} (WHAT's HAPPENING? -> exit (status: 100))" >> "${LOGFILE}"
+return 100
