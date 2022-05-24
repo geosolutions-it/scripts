@@ -115,6 +115,8 @@ do
 		${CMD_START} >> "${LOGFILE}" 2>&1
 
 	fi
+	
+	sleep $DOCKER_TIMEOUT
 done
 echo "`date` WatchDog Action: Starting service FAILED ${SERVICE} (WHAT's HAPPENING? -> exit (status: 100))" >> "${LOGFILE}"
 return 100
