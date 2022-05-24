@@ -39,7 +39,7 @@ GSURL=http://localhost/
 WFSURL="$GSURL"
 
 #set the connection timeout (in seconds)
-TIMEOUT=30
+TIMEOUT=200
 
 # seconds to wait to recheck the service (this is not cron)
 # tomcat restart time
