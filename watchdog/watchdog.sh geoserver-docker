@@ -45,6 +45,7 @@ TIMEOUT=30
 # tomcat restart time
 DOCKER_TIMEOUT=50
 
+
 # the service to restart
 # should be a script placed here:
 # /etc/init.d/
@@ -112,6 +113,7 @@ do
 		echo "`date` WatchDog Action: Starting service ${SERVICE}" >> "${LOGFILE}"
 
 		${CMD_START} >> "${LOGFILE}" 2>&1
+		sleep $DOCKER_TIMEOUT
 	fi
 done
 echo "`date` WatchDog Action: Starting service FAILED ${SERVICE} (WHAT's HAPPENING? -> exit (status: 100))" >> "${LOGFILE}"
