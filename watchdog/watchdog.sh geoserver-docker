@@ -43,7 +43,7 @@ TIMEOUT=30
 
 # seconds to wait to recheck the service (this is not cron)
 # tomcat restart time
-DOCKER_TIMEOUT=50
+DOCKER_TIMEOUT=200
 
 
 # the service to restart
