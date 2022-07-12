@@ -5,6 +5,7 @@ PGUSER="postgres"
 TARGET_DATABASE="osm"
 DBHOST="localhost"
 ENV_PATH=".env"
+LOGFILE="./watchdog-postgres.log"
 source $ENV_PATH
 TEST_QUERY="SELECT NOW();"
 test_pg() {
@@ -15,7 +16,9 @@ test_pg() {
 restart_pg() {
   docker restart ${CONTAINER_NAME}
 }
-
+capture_logs() {
+  docker logs --tail 1000 $CONTAINER_NAME > $LOGFILE
+}
 check_pg_uptime() {
   #Check uptime with a timeout of 5 seconds
   UPTIME=$(PGCONNECT_TIMEOUT=${TIMEOUT} PGPASSWORD=${POSTGRES_PASSWORD} \
@@ -37,6 +40,10 @@ if [ $? -eq 0 ]; then
   test_pg
   # if query fails or psql returns an exit value different from 0, restart pg
   if [ $? -ne 0 ]; then
+    echo "Dumping docker logs before restart for postgres container $CONTAINER_NAME" > $LOGFILE
+    capture_logs
+    echo "Restarting postgres container $CONTAINER_NAME" > $LOGFILE	  
     restart_pg
+    echo "Restarted postgres container $CONTAINER_NAME" > $LOGFILE
   fi
 fi
