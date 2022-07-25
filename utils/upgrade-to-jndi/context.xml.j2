@@ -1,0 +1,39 @@
+<Context>
+
+{% for config in configs_list %}
+  <Resource
+    name="jdbc/{{ config.name }}"
+    auth="Container"
+    type="javax.sql.DataSource"
+    driverClassName="org.postgresql.Driver"
+    {% if config.schema %}
+    url="jdbc:postgresql://{{config.host}}/{{config.database}}?searchpath={{config.schema}}"
+    {% else %}
+    url="jdbc:postgresql://{{config.host}}/{{config.database}}"
+    {% endif %}
+    username="{{config.user}}"
+    password="{{config.pass}}"
+    initialSize="{{config.min_conn}}"
+    minActive="{{config.min_conn}}"
+    maxActive="{{config.max_conn}}"
+    maxIdle="10"
+    maxWait="2500"
+    testWhileIdle="true"
+    minEvictableIdleTimeMillis="300000"
+    timeBetweenEvictionRunsMillis="300000"
+    numTestsPerEvictionRun="5"
+    testOnBorrow="false"
+    removeAbandoned="true"
+    removeAbandonedTimeout="300"
+    logAbandoned="false"
+    maxOpenPreparedStatements="20"
+    validationQuery="SELECT 1"
+    />
+
+{% endfor %}
+
+</Context>
+
+
+
+
