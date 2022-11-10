@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jmeterTestPlan version="1.2" properties="3.1" jmeter="3.1 r1770033">
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.5">
   <hashTree>
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="tiff" enabled="true">
       <boolProp name="TestPlan.functional_mode">false</boolProp>
@@ -10,7 +10,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="HOST" elementType="Argument">
             <stringProp name="Argument.name">HOST</stringProp>
-            <stringProp name="Argument.value">vwids.eumetsat.int</stringProp>
+            <stringProp name="Argument.value">maps.geosolutionsgroup.com</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="USERS" elementType="Argument">
@@ -35,12 +35,12 @@
           </elementProp>
           <elementProp name="ANIMATION_ACCESS_LOG" elementType="Argument">
             <stringProp name="Argument.name">ANIMATION_ACCESS_LOG</stringProp>
-            <stringProp name="Argument.value">C:\Users\geosolutions\Desktop\eumetsat_tests\tests\access_log\animation_requests</stringProp>
+            <stringProp name="Argument.value">D:\Work\Clients\CAE\osm_tests\tests\access_log\animation_requests</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="ACCESS_LOG" elementType="Argument">
             <stringProp name="Argument.name">ACCESS_LOG</stringProp>
-            <stringProp name="Argument.value">C:\Users\geosolutions\Desktop\eumetsat_tests\teststests\access_log\tiled_requests</stringProp>
+            <stringProp name="Argument.value">D:\Work\Clients\CAE\osm_tests\tests\access_log\tiled_requests</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="PERC_TILED" elementType="Argument">
@@ -65,7 +65,7 @@
           </elementProp>
           <elementProp name="GEOSERVER_PATH" elementType="Argument">
             <stringProp name="Argument.name">GEOSERVER_PATH</stringProp>
-            <stringProp name="Argument.value">/geoserv/ows</stringProp>
+            <stringProp name="Argument.value">/geoserver/ows</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -85,6 +85,7 @@
           <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
         <longProp name="ThreadGroup.end_time">1175121299000</longProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree>
         <InterleaveControl guiclass="InterleaveControlGui" testclass="InterleaveControl" testname="Interleave Controller" enabled="true">
@@ -107,11 +108,12 @@
               <stringProp name="delimiter">;</stringProp>
               <boolProp name="recycle">true</boolProp>
               <stringProp name="filename">${TILED_CSV_FILE}</stringProp>
-              <stringProp name="variableNames">layer,time,width,height,bbox,srs</stringProp>
+              <stringProp name="variableNames">layer,width,height,bbox,srs</stringProp>
               <stringProp name="fileEncoding"></stringProp>
               <boolProp name="quotedData">false</boolProp>
               <boolProp name="stopThread">false</boolProp>
               <stringProp name="shareMode">shareMode.all</stringProp>
+              <boolProp name="ignoreFirstLine">false</boolProp>
             </CSVDataSet>
             <hashTree/>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Tiled Requests" enabled="true">
@@ -138,13 +140,6 @@
                     <stringProp name="Argument.value">${width}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
-                  <elementProp name="time" elementType="HTTPArgument">
-                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">${time}</stringProp>
-                    <stringProp name="Argument.metadata">=</stringProp>
-                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                    <stringProp name="Argument.name">time</stringProp>
-                  </elementProp>
                   <elementProp name="srs" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">${srs}</stringProp>
@@ -163,8 +158,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain"></stringProp>
               <stringProp name="HTTPSampler.port"></stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol"></stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path"></stringProp>
@@ -173,9 +166,10 @@
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
               <boolProp name="HTTPSampler.use_keepalive">false</boolProp>
               <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <stringProp name="HTTPSampler.implementation">Java</stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.implementation">Java</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
             <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
@@ -226,13 +220,13 @@
                 </collectionProp>
               </elementProp>
               <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
-              <stringProp name="HTTPSampler.port">80</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
-              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol">https</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">${GEOSERVER_PATH}</stringProp>
               <stringProp name="HTTPSampler.concurrentPool">4</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </ConfigTestElement>
             <hashTree/>
           </hashTree>
@@ -271,13 +265,6 @@
                     <stringProp name="Argument.value">${width}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
-                  <elementProp name="time" elementType="HTTPArgument">
-                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">${time}</stringProp>
-                    <stringProp name="Argument.metadata">=</stringProp>
-                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                    <stringProp name="Argument.name">time</stringProp>
-                  </elementProp>
                   <elementProp name="srs" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">${srs}</stringProp>
@@ -296,8 +283,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain"></stringProp>
               <stringProp name="HTTPSampler.port"></stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol"></stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path"></stringProp>
@@ -306,20 +291,22 @@
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
               <boolProp name="HTTPSampler.use_keepalive">false</boolProp>
               <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <stringProp name="HTTPSampler.implementation">Java</stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.implementation">Java</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
             <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
               <stringProp name="delimiter">;</stringProp>
               <boolProp name="recycle">true</boolProp>
               <stringProp name="filename">${UNTILED_CSV_FILE}</stringProp>
-              <stringProp name="variableNames">layer,time,width,height,bbox,srs</stringProp>
+              <stringProp name="variableNames">layer,width,height,bbox,srs</stringProp>
               <stringProp name="fileEncoding"></stringProp>
               <boolProp name="quotedData">false</boolProp>
               <boolProp name="stopThread">false</boolProp>
               <stringProp name="shareMode">shareMode.all</stringProp>
+              <boolProp name="ignoreFirstLine">false</boolProp>
             </CSVDataSet>
             <hashTree/>
             <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
@@ -363,13 +350,13 @@
                 </collectionProp>
               </elementProp>
               <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
-              <stringProp name="HTTPSampler.port">80</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
-              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol">https</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">${GEOSERVER_PATH}</stringProp>
               <stringProp name="HTTPSampler.concurrentPool">4</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </ConfigTestElement>
             <hashTree/>
           </hashTree>
@@ -393,6 +380,7 @@
               <boolProp name="imageParsing">false</boolProp>
               <stringProp name="parserClassName">org.apache.jmeter.protocol.http.util.accesslog.TCLogParser</stringProp>
               <stringProp name="logFile">${ANIMATION_ACCESS_LOG}</stringProp>
+              <stringProp name="protocol">https</stringProp>
             </AccessLogSampler>
             <hashTree/>
           </hashTree>
@@ -416,6 +404,7 @@
               <boolProp name="imageParsing">false</boolProp>
               <stringProp name="parserClassName">org.apache.jmeter.protocol.http.util.accesslog.TCLogParser</stringProp>
               <stringProp name="logFile">${ACCESS_LOG}</stringProp>
+              <stringProp name="protocol">https</stringProp>
             </AccessLogSampler>
             <hashTree/>
           </hashTree>
@@ -587,6 +576,7 @@
         <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
         <boolProp name="Assertion.assume_success">false</boolProp>
         <intProp name="Assertion.test_type">2</intProp>
+        <stringProp name="Assertion.custom_message"></stringProp>
       </ResponseAssertion>
       <hashTree/>
     </hashTree>

@@ -1,3 +1,11 @@
+Sample Usage:
+
+    ./generate_csv.sh osm:osm EPSG:3857 "-8238430.68 -8226458.73 4969204.6 4970513.63"
+
+    cd C:\Work\Code\DevOps\scripts\performance_tests\WMS>
+       C:\Apps\apache-jmeter-5.5\bin\jmeter.bat -n -t test_all.jmx -l .\logs\output.log -e -o .\logs
+
+
 This package contains :
 
 * **test_all.jmx**: a jMeter test for eumetsat performance tests.  
