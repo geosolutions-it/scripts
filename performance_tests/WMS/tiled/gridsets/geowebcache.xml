@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<gwcConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://geowebcache.org/schema/1.19.0 http://geowebcache.org/schema/1.19.0/geowebcache.xsd" xmlns="http://geowebcache.org/schema/1.19.0">
-  <version>1.19.0</version>
+<gwcConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://geowebcache.org/schema/1.20.0 http://geowebcache.org/schema/1.20.0/geowebcache.xsd" xmlns="http://geowebcache.org/schema/1.20.0">
+  <version>1.20.0</version>
   <backendTimeout>120</backendTimeout>
   <blobStores/>
   <gridSets>
     <gridSet>
       <name>EPSG:3857</name>
-      <description>This well-known scale set has been defined to be compatible with Google Maps and Microsoft Live Map projections and zoom levels. Level 0 allows representing the whole world in a single 256x256 pixels. The next level represents the whole world in 2x2 tiles of 256x256 pixels and so on in powers of 2. Scale denominator is only accurate near the equator.</description>
       <srs>
         <number>3857</number>
       </srs>
@@ -93,7 +92,6 @@
     </gridSet>
     <gridSet>
       <name>EPSG:3857x2</name>
-      <description>This well-known scale set has been defined to be compatible with Google Maps and Microsoft Live Map projections and zoom levels. Level 0 allows representing the whole world in a single 512x512 pixels. The next level represents the whole world in 4x4 tiles of 512x512 pixels and so on in powers of 2. Scale denominator is only accurate near the equator.</description>
       <srs>
         <number>3857</number>
       </srs>
@@ -177,6 +175,142 @@
       <tileHeight>512</tileHeight>
       <tileWidth>512</tileWidth>
       <yCoordinateFirst>false</yCoordinateFirst>
+    </gridSet>
+    <gridSet>
+      <name>EPSG:4326</name>
+      <srs>
+        <number>4326</number>
+      </srs>
+      <extent>
+        <coords>
+          <double>-180.0</double>
+          <double>-90.0</double>
+          <double>180.0</double>
+          <double>90.0</double>
+        </coords>
+      </extent>
+      <alignTopLeft>false</alignTopLeft>
+      <resolutions>
+        <double>0.703125</double>
+        <double>0.3515625</double>
+        <double>0.17578125</double>
+        <double>0.087890625</double>
+        <double>0.0439453125</double>
+        <double>0.02197265625</double>
+        <double>0.010986328125</double>
+        <double>0.0054931640625</double>
+        <double>0.00274658203125</double>
+        <double>0.001373291015625</double>
+        <double>6.866455078125E-4</double>
+        <double>3.433227539062E-4</double>
+        <double>1.716613769531E-4</double>
+        <double>8.58306884766E-5</double>
+        <double>4.29153442383E-5</double>
+        <double>2.14576721191E-5</double>
+        <double>1.07288360596E-5</double>
+        <double>5.3644180298E-6</double>
+        <double>2.6822090149E-6</double>
+        <double>1.3411045074E-6</double>
+        <double>6.705522537E-7</double>
+        <double>3.352761269E-7</double>
+      </resolutions>
+      <metersPerUnit>111319.49079327358</metersPerUnit>
+      <pixelSize>2.8E-4</pixelSize>
+      <scaleNames>
+        <string>EPSG:4326:0</string>
+        <string>EPSG:4326:1</string>
+        <string>EPSG:4326:2</string>
+        <string>EPSG:4326:3</string>
+        <string>EPSG:4326:4</string>
+        <string>EPSG:4326:5</string>
+        <string>EPSG:4326:6</string>
+        <string>EPSG:4326:7</string>
+        <string>EPSG:4326:8</string>
+        <string>EPSG:4326:9</string>
+        <string>EPSG:4326:10</string>
+        <string>EPSG:4326:11</string>
+        <string>EPSG:4326:12</string>
+        <string>EPSG:4326:13</string>
+        <string>EPSG:4326:14</string>
+        <string>EPSG:4326:15</string>
+        <string>EPSG:4326:16</string>
+        <string>EPSG:4326:17</string>
+        <string>EPSG:4326:18</string>
+        <string>EPSG:4326:19</string>
+        <string>EPSG:4326:20</string>
+        <string>EPSG:4326:21</string>
+      </scaleNames>
+      <tileHeight>256</tileHeight>
+      <tileWidth>256</tileWidth>
+      <yCoordinateFirst>true</yCoordinateFirst>
+    </gridSet>
+    <gridSet>
+      <name>EPSG:4326x2</name>
+      <srs>
+        <number>4326</number>
+      </srs>
+      <extent>
+        <coords>
+          <double>-180.0</double>
+          <double>-90.0</double>
+          <double>180.0</double>
+          <double>90.0</double>
+        </coords>
+      </extent>
+      <alignTopLeft>false</alignTopLeft>
+      <resolutions>
+        <double>0.3515625</double>
+        <double>0.17578125</double>
+        <double>0.087890625</double>
+        <double>0.0439453125</double>
+        <double>0.02197265625</double>
+        <double>0.010986328125</double>
+        <double>0.0054931640625</double>
+        <double>0.00274658203125</double>
+        <double>0.001373291015625</double>
+        <double>6.866455078125E-4</double>
+        <double>3.433227539062E-4</double>
+        <double>1.716613769531E-4</double>
+        <double>8.58306884766E-5</double>
+        <double>4.29153442383E-5</double>
+        <double>2.14576721191E-5</double>
+        <double>1.07288360596E-5</double>
+        <double>5.3644180298E-6</double>
+        <double>2.6822090149E-6</double>
+        <double>1.3411045074E-6</double>
+        <double>6.705522537E-7</double>
+        <double>3.352761269E-7</double>
+        <double>1.676380634E-7</double>
+      </resolutions>
+      <metersPerUnit>111319.49079327358</metersPerUnit>
+      <pixelSize>2.8E-4</pixelSize>
+      <scaleNames>
+        <string>EPSG:4326x2:0</string>
+        <string>EPSG:4326x2:1</string>
+        <string>EPSG:4326x2:2</string>
+        <string>EPSG:4326x2:3</string>
+        <string>EPSG:4326x2:4</string>
+        <string>EPSG:4326x2:5</string>
+        <string>EPSG:4326x2:6</string>
+        <string>EPSG:4326x2:7</string>
+        <string>EPSG:4326x2:8</string>
+        <string>EPSG:4326x2:9</string>
+        <string>EPSG:4326x2:10</string>
+        <string>EPSG:4326x2:11</string>
+        <string>EPSG:4326x2:12</string>
+        <string>EPSG:4326x2:13</string>
+        <string>EPSG:4326x2:14</string>
+        <string>EPSG:4326x2:15</string>
+        <string>EPSG:4326x2:16</string>
+        <string>EPSG:4326x2:17</string>
+        <string>EPSG:4326x2:18</string>
+        <string>EPSG:4326x2:19</string>
+        <string>EPSG:4326x2:20</string>
+        <string>EPSG:4326x2:21</string>
+      </scaleNames>
+      <tileHeight>512</tileHeight>
+      <tileWidth>512</tileWidth>
+      <yCoordinateFirst>true</yCoordinateFirst>
     </gridSet>
   </gridSets>
   <layers/>
