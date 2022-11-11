@@ -2,8 +2,7 @@ Sample Usage:
 
     ./generate_csv.sh osm:osm EPSG:4326 "15.7533753 19.6194888 42.5715009 45.2640874"
 
-    cd C:\Work\Code\DevOps\scripts\performance_tests\WMS>
-       C:\Apps\apache-jmeter-5.5\bin\jmeter.bat -n -t test_all.jmx -l .\logs\output.log -e -o .\logs
+    C:\Apps\apache-jmeter-5.5\bin\jmeter.bat -n -t test_all.jmx -l .\logs\output.log -e -o .\logs
 
 
 This package contains :
