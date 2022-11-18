@@ -12,7 +12,7 @@ GRIDSET=${2:-EPSG\:4326}
 REGION=${3:-"-180 -90 180 90"}
 #######################
 #Limit of rows to create
-REQPERGRANULE=10
+REQPERGRANULE=${4:-100}
 TIME_RECORDS_LIMIT=5
 
 #######################
