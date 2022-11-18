@@ -109,22 +109,18 @@ if __name__ == '__main__':
         width = random.randint(minsize[0], maxsize[0])
         height = random.randint(minsize[1], maxsize[1])
 
-        center_x = random.random() * (region[2] - region[0]) + region[0]
-        center_y = random.random() * (region[3] - region[1]) + region[1]
+        tile_random_x_seed = [random.uniform(region[0], region[1]), random.uniform(region[0], region[1])]
+        tile_random_y_seed = [random.uniform(region[2], region[3]), random.uniform(region[2], region[3])]
+        tile_random_x0 = min(tile_random_x_seed[0], tile_random_x_seed[1])
+        tile_random_x1 = max(tile_random_x_seed[0], tile_random_x_seed[1])
+        tile_random_y0 = min(tile_random_y_seed[0], tile_random_y_seed[1])
+        tile_random_y1 = max(tile_random_y_seed[0], tile_random_y_seed[1])
 
-        max_log10 = math.log10(maxres)
-        min_log10 = math.log10(minres)
-        random_log = random.random() * (max_log10 - min_log10) + min_log10
-        res = math.pow(10, random_log)
-
-        bbox = (center_x - width * 0.5 * res,
-                center_y - height * 0.5 * res,
-                center_x + width * 0.5 * res,
-                center_y + height * 0.5 * res)
+        bbox = (tile_random_x0, tile_random_y0, tile_random_x1, tile_random_y1)
 
         if bbox[0] >= region[0] \
-           and bbox[1] >= region[1] \
-           and bbox[2] <= region[2] \
+           and bbox[1] >= region[2] \
+           and bbox[2] <= region[1] \
            and bbox[3] <= region[3]:
 
             count = count - 1

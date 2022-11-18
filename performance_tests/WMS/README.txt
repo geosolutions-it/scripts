@@ -1,7 +1,7 @@
 How to use it
 =============
 
-1. Open the "test_all.jmx" test paln on JMeter and set the main parameters
+1. Open the "test_all.jmx" test plan on JMeter and set the main parameters
    HOST
    HTTP_SCHEMA
    HTTP_PORT

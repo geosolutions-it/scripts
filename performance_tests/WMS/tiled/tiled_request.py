@@ -207,26 +207,27 @@ if __name__ == '__main__':
     while count > 0:
         levelIndex = random.randint(0, numLevels - 1)
         res = resolutions[int(levelIndexes[levelIndex])]
-        # print str(region)
 
         tile_min_x = int(math.floor((region[0] - tiles_origin[0]) / (width * res)))
-        tile_min_y = int(math.floor((region[1] - tiles_origin[1]) / (height * res)))
-        tile_max_x = int(math.ceil((region[2] - tiles_origin[0]) / (width * res)))
+        tile_min_y = int(math.floor((region[2] - tiles_origin[1]) / (height * res)))
+        tile_max_x = int(math.ceil((region[1] - tiles_origin[0]) / (width * res)))
         tile_max_y = int(math.ceil((region[3] - tiles_origin[1]) / (height * res)))
 
-        tile_random_x = random.randint(tile_min_x, tile_max_x - 1)
-        tile_random_y = random.randint(tile_min_y, tile_max_y - 1)
-        # print str(tile_min_x) + "/" + str(tile_min_y) + " ; " + str(tile_max_x) + "/" + str(tile_max_y) + " ; " + str(tile_random_x) + "/" + str(tile_random_y)
+        tile_random_x_seed = [random.uniform(tile_min_x, tile_max_x), random.uniform(tile_min_x, tile_max_x)]
+        tile_random_y_seed = [random.uniform(tile_min_y, tile_max_y), random.uniform(tile_min_y, tile_max_y)]
+        tile_random_x0 = min(tile_random_x_seed[0], tile_random_x_seed[1])
+        tile_random_x1 = max(tile_random_x_seed[0], tile_random_x_seed[1])
+        tile_random_y0 = min(tile_random_y_seed[0], tile_random_y_seed[1])
+        tile_random_y1 = max(tile_random_y_seed[0], tile_random_y_seed[1])
 
-        bbox = (tiles_origin[0] + tile_random_x * width * res,
-                tiles_origin[1] + tile_random_y * height * res,
-                tiles_origin[0] + (tile_random_x + 1) * width * res,
-                tiles_origin[1] + (tile_random_y + 1) * height * res)
-        # print str(bbox)
+        bbox = (tiles_origin[0] + tile_random_x0 * width * res,
+                tiles_origin[1] + tile_random_y0 * height * res,
+                tiles_origin[0] + tile_random_x1 * width * res,
+                tiles_origin[1] + tile_random_y1 * height * res)
 
         if bbox[0] >= region[0] \
-           and bbox[1] >= region[1] \
-           and bbox[2] <= region[2] \
+           and bbox[1] >= region[2] \
+           and bbox[2] <= region[1] \
            and bbox[3] <= region[3]:
 
             count = count - 1
