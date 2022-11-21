@@ -106,15 +106,19 @@ if __name__ == '__main__':
     # -------------------------------------------------------------------------
 
     while count > 0:
+        bbox_ratio = random.uniform(0, 1)
         width = random.randint(minsize[0], maxsize[0])
         height = random.randint(minsize[1], maxsize[1])
+        res_seed = random.randint(minsize[0], maxsize[0])
+        res_x = ((region[1] - region[0]) / res_seed)
+        res_y = ((region[3] - region[2]) / res_seed)
 
-        tile_random_x_seed = [random.uniform(region[0], region[1]), random.uniform(region[0], region[1])]
-        tile_random_y_seed = [random.uniform(region[2], region[3]), random.uniform(region[2], region[3])]
-        tile_random_x0 = min(tile_random_x_seed[0], tile_random_x_seed[1])
-        tile_random_x1 = max(tile_random_x_seed[0], tile_random_x_seed[1])
-        tile_random_y0 = min(tile_random_y_seed[0], tile_random_y_seed[1])
-        tile_random_y1 = max(tile_random_y_seed[0], tile_random_y_seed[1])
+        tile_random_x_seed = random.uniform(region[0], region[1])
+        tile_random_y_seed = random.uniform(region[2], region[3])
+        tile_random_x0 = tile_random_x_seed
+        tile_random_x1 = tile_random_x_seed + (width * res_x)
+        tile_random_y0 = tile_random_y_seed
+        tile_random_y1 = tile_random_y_seed + (height * res_y)
 
         bbox = (tile_random_x0, tile_random_y0, tile_random_x1, tile_random_y1)
 
@@ -126,3 +130,6 @@ if __name__ == '__main__':
             count = count - 1
             print('%s;%d;%d;%.8g,%.8g,%.8g,%.8g'
                   % (layer, width, height, bbox[0], bbox[1], bbox[2], bbox[3]))
+        else:
+            # print(f'out if region -> ' + str(bbox) + ' / ' + str(region))
+            pass

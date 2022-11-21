@@ -17,7 +17,7 @@ TIME_RECORDS_LIMIT=5
 
 #######################
 #Tiled Options
-LEVELS="1,2,3,4,5,6,7,8,9"
+LEVELS=${5:-"1,2,3,4,5,6,7,8,9"}
 
 GRIDSET_DIR="tiled/gridsets"
 

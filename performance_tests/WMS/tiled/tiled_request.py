@@ -194,6 +194,7 @@ if __name__ == '__main__':
         print(f"   tileSize: {str(tileSize)}")
         print(f"   bbox: {str(tiles_origin)}")
         print(f"   resolutions: {str(resolutions)}")
+        print(f"   resolutions: {str(resolutions)}")
     levelIndexes = levels.split(',')
     numResolutions = len(resolutions)
     for levelIndex in levelIndexes:
@@ -208,34 +209,20 @@ if __name__ == '__main__':
         levelIndex = random.randint(0, numLevels - 1)
         res = resolutions[int(levelIndexes[levelIndex])]
 
-        tile_min_x = int(math.floor((region[0] - tiles_origin[0]) / (width * res)))
-        tile_min_y = int(math.floor((region[2] - tiles_origin[1]) / (height * res)))
-        tile_max_x = int(math.ceil((region[1] - tiles_origin[0]) / (width * res)))
-        tile_max_y = int(math.ceil((region[3] - tiles_origin[1]) / (height * res)))
+        tile_min_x = int(math.floor((random.uniform(region[0], region[1]) - tiles_origin[0]) / (width * res)))
+        tile_min_y = int(math.floor((random.uniform(region[2], region[3])- tiles_origin[1]) / (height * res)))
 
-        tile_random_x_seed = [random.uniform(tile_min_x, tile_max_x), random.uniform(tile_min_x, tile_max_x)]
-        tile_random_y_seed = [random.uniform(tile_min_y, tile_max_y), random.uniform(tile_min_y, tile_max_y)]
-        tile_random_x0 = min(tile_random_x_seed[0], tile_random_x_seed[1])
-        tile_random_x1 = max(tile_random_x_seed[0], tile_random_x_seed[1])
-        tile_random_y0 = min(tile_random_y_seed[0], tile_random_y_seed[1])
-        tile_random_y1 = max(tile_random_y_seed[0], tile_random_y_seed[1])
+        bbox_x0 = tiles_origin[0] + tile_min_x * width * res
+        bbox_y0 = tiles_origin[1] + tile_min_y * height * res
 
-        bbox = (tiles_origin[0] + tile_random_x0 * width * res,
-                tiles_origin[1] + tile_random_y0 * height * res,
-                tiles_origin[0] + tile_random_x1 * width * res,
-                tiles_origin[1] + tile_random_y1 * height * res)
+        bbox = (bbox_x0,
+                bbox_y0,
+                bbox_x0 + 1 * width * res,
+                bbox_y0 + 1 * height * res)
 
-        if bbox[0] >= region[0] \
-           and bbox[1] >= region[2] \
-           and bbox[2] <= region[1] \
-           and bbox[3] <= region[3]:
-
-            count = count - 1
-            if (hasAuxFile):
-                for line in t:
-                    printOutLine(f"{line};", width, height, bbox, srsName)
-            else:
-                printOutLine(f"{layer};", width, height, bbox, srsName)
+        count = count - 1
+        if (hasAuxFile):
+            for line in t:
+                printOutLine(f"{line};", width, height, bbox, srsName)
         else:
-            # print 'out if region -> ' + str(bbox[0]) + ' / ' + str(region[0])
-            pass
+            printOutLine(f"{layer};", width, height, bbox, srsName)
