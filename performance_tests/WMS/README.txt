@@ -13,10 +13,10 @@ How to use it
 
 4. Generate the random requests on the CSV files
 
-    ./generate_csv.sh <layer_name> <gridset_id> "x0 x1 y0 y1" <count>
+    ./generate_csv.sh <layer_name> <gridset_id> "x0 x1 y0 y1" <count> <zoom_levels>
 
     e.g.:
 
-    ./generate_csv.sh osm:osm_roads EPSG:4326 "-79.76 -57.10 44.99 62.59" 100
+    ./generate_csv.sh osm:roads EPSG:3857 "-8262132.606676765 -8122983.243185173 5681544.414062212 5741972.112518539" 5000 "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21"
 
-5. Toggle the "Tiled" or "Untiled" controllers from the JMeter test plan and run the tests
+5. Toggle the "Tiled" or "Untiled" controllers from the JMeter test plan, update the global settings accordingly and run the tests
