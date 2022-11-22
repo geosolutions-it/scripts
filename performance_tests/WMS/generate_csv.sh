@@ -5,19 +5,19 @@
 
 #######################
 # Common options
-CAPABILITIES_URL="http://mygeoserver.com/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
-LAYER=${1:-met9:airmass}
+CAPABILITIES_URL="https://maps.geosolutionsgroup.com/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
+LAYER=${1:-osm:osm}
 
-GRIDSET=${2:-EPSG\:4326_level10}
+GRIDSET=${2:-EPSG\:4326}
 REGION=${3:-"-180 -90 180 90"}
 #######################
 #Limit of rows to create
-REQPERGRANULE=10
+REQPERGRANULE=${4:-100}
 TIME_RECORDS_LIMIT=5
 
 #######################
 #Tiled Options
-LEVELS="1,2,3,4,5,6,7,8,9"
+LEVELS=${5:-"1,2,3,4,5,6,7,8,9"}
 
 GRIDSET_DIR="tiled/gridsets"
 
@@ -54,19 +54,19 @@ wget -q -O  - "${CAPABILITIES_URL}" > ${CAPABILITIES_DOC}
 
 echo "Fetching times for layer ${LAYER}..."
 #Get Times 
-python time/time_request.py -capabilities_doc ${CAPABILITIES_DOC} -layer ${LAYER} -name  > ${TIMES_FILE} 
+# python time/time_request.py -capabilities_doc ${CAPABILITIES_DOC} -layer ${LAYER} -name  > ${TIMES_FILE} 
 
 echo "Generating tiled requests for layer ${LAYER}..."
 #Generate Tiled Requests 
-python tiled/tiled_request.py -count ${REQPERGRANULE} -gridset ${GRIDSET} -gridset_dir ${GRIDSET_DIR} -region ${REGION} -levels ${LEVELS}  -auxiliary_csv ${TIMES_FILE} -srs >> ${TILED_FILE}
+# python tiled/tiled_request.py -count ${REQPERGRANULE} -gridset ${GRIDSET} -gridset_dir ${GRIDSET_DIR} -region ${REGION} -levels ${LEVELS} -auxiliary_csv ${TIMES_FILE} -srs >> ${TILED_FILE}
+python tiled/tiled_request.py -layer ${LAYER} -count ${REQPERGRANULE} -gridset ${GRIDSET} -gridset_dir ${GRIDSET_DIR} -region ${REGION} -levels ${LEVELS} -srs > ${TILED_FILE}
 
 echo "Generating untiled requests for layer ${LAYER}..."
 #Generate Untiled Requests (with SRS NAME)
-python untiled/wms_request.py -region  ${REGION} -maxsize ${MAXSIZE} -minsize ${MINSIZE} -maxres ${MAXRES} -minres ${MINRES} -count ${REQPERGRANULE} | awk -vd="${SRSNAME}" '{$0=$0";"d}1'  > ${UNTILED_TEMP_FILE}
+# python untiled/wms_request.py -region  ${REGION} -maxsize ${MAXSIZE} -minsize ${MINSIZE} -maxres ${MAXRES} -minres ${MINRES} -count ${REQPERGRANULE} | awk -vd="${SRSNAME}" '{$0=$0";"d}1'  > ${UNTILED_TEMP_FILE}
+python untiled/wms_request.py -region ${REGION} -maxsize ${MAXSIZE} -minsize ${MINSIZE} -maxres ${MAXRES} -minres ${MINRES} -layer ${LAYER} -count ${REQPERGRANULE} | awk -vd="${SRSNAME}" '{$0=$0";"d}1'  > ${UNTILED_FILE}
 #Cartesina product with tunes file
-./util/cartesian.sh -d ";" ${TIMES_FILE} ${UNTILED_TEMP_FILE}>> ${UNTILED_FILE}
-echo "cleaning temporaney files"
+# ./util/cartesian.sh -d ";" ${TIMES_FILE} ${UNTILED_TEMP_FILE}>> ${UNTILED_FILE}
+echo "cleaning temporary files"
 rm -f $TIMES_FILE
 rm -f $UNTILED_TEMP_FILE
-
-

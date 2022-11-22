@@ -1,11 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<gwcConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://geowebcache.org/schema/1.3.0 http://geowebcache.org/schema/1.3.0/geowebcache.xsd" xmlns="http://geowebcache.org/schema/1.3.0">
-  <version>1.3.0</version>
+<gwcConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://geowebcache.org/schema/1.20.0 http://geowebcache.org/schema/1.20.0/geowebcache.xsd" xmlns="http://geowebcache.org/schema/1.20.0">
+  <version>1.20.0</version>
   <backendTimeout>120</backendTimeout>
+  <blobStores/>
   <gridSets>
     <gridSet>
-      <name>EPSG:4326_level10</name>
-      <description>A default WGS84 tile matrix set where the first zoom level covers the world with two tiles on the horizonal axis and one tile over the vertical axis and each subsequent zoom level is calculated by half the resolution of its previous one.</description>
+      <name>EPSG:3857</name>
+      <srs>
+        <number>3857</number>
+      </srs>
+      <extent>
+        <coords>
+          <double>-2.003750834E7</double>
+          <double>-2.003750834E7</double>
+          <double>2.003750834E7</double>
+          <double>2.003750834E7</double>
+        </coords>
+      </extent>
+      <alignTopLeft>false</alignTopLeft>
+      <resolutions>
+        <double>156543.03390625</double>
+        <double>78271.516953125</double>
+        <double>39135.7584765625</double>
+        <double>19567.87923828125</double>
+        <double>9783.939619140625</double>
+        <double>4891.9698095703125</double>
+        <double>2445.9849047851562</double>
+        <double>1222.9924523925781</double>
+        <double>611.4962261962891</double>
+        <double>305.74811309814453</double>
+        <double>152.87405654907226</double>
+        <double>76.43702827453613</double>
+        <double>38.218514137268066</double>
+        <double>19.109257068634033</double>
+        <double>9.554628534317017</double>
+        <double>4.777314267158508</double>
+        <double>2.388657133579254</double>
+        <double>1.194328566789627</double>
+        <double>0.5971642833948135</double>
+        <double>0.2985821416974068</double>
+        <double>0.1492910708487034</double>
+        <double>0.0746455354243517</double>
+        <double>0.0373227677121758</double>
+        <double>0.0186613838560879</double>
+        <double>0.009330691928044</double>
+        <double>0.004665345964022</double>
+        <double>0.002332672982011</double>
+        <double>0.0011663364910055</double>
+        <double>5.831682455027E-4</double>
+        <double>2.915841227514E-4</double>
+        <double>1.457920613757E-4</double>
+      </resolutions>
+      <metersPerUnit>1.0</metersPerUnit>
+      <pixelSize>2.8E-4</pixelSize>
+      <scaleNames>
+        <string>EPSG:3857:0</string>
+        <string>EPSG:3857:1</string>
+        <string>EPSG:3857:2</string>
+        <string>EPSG:3857:3</string>
+        <string>EPSG:3857:4</string>
+        <string>EPSG:3857:5</string>
+        <string>EPSG:3857:6</string>
+        <string>EPSG:3857:7</string>
+        <string>EPSG:3857:8</string>
+        <string>EPSG:3857:9</string>
+        <string>EPSG:3857:10</string>
+        <string>EPSG:3857:11</string>
+        <string>EPSG:3857:12</string>
+        <string>EPSG:3857:13</string>
+        <string>EPSG:3857:14</string>
+        <string>EPSG:3857:15</string>
+        <string>EPSG:3857:16</string>
+        <string>EPSG:3857:17</string>
+        <string>EPSG:3857:18</string>
+        <string>EPSG:3857:19</string>
+        <string>EPSG:3857:20</string>
+        <string>EPSG:3857:21</string>
+        <string>EPSG:3857:22</string>
+        <string>EPSG:3857:23</string>
+        <string>EPSG:3857:24</string>
+        <string>EPSG:3857:25</string>
+        <string>EPSG:3857:26</string>
+        <string>EPSG:3857:27</string>
+        <string>EPSG:3857:28</string>
+        <string>EPSG:3857:29</string>
+        <string>EPSG:3857:30</string>
+      </scaleNames>
+      <tileHeight>256</tileHeight>
+      <tileWidth>256</tileWidth>
+      <yCoordinateFirst>false</yCoordinateFirst>
+    </gridSet>
+    <gridSet>
+      <name>EPSG:3857x2</name>
+      <srs>
+        <number>3857</number>
+      </srs>
+      <extent>
+        <coords>
+          <double>-2.003750834E7</double>
+          <double>-2.003750834E7</double>
+          <double>2.003750834E7</double>
+          <double>2.003750834E7</double>
+        </coords>
+      </extent>
+      <alignTopLeft>false</alignTopLeft>
+      <resolutions>
+        <double>78271.516953125</double>
+        <double>39135.7584765625</double>
+        <double>19567.87923828125</double>
+        <double>9783.939619140625</double>
+        <double>4891.9698095703125</double>
+        <double>2445.9849047851562</double>
+        <double>1222.9924523925781</double>
+        <double>611.4962261962891</double>
+        <double>305.74811309814453</double>
+        <double>152.87405654907226</double>
+        <double>76.43702827453613</double>
+        <double>38.218514137268066</double>
+        <double>19.109257068634033</double>
+        <double>9.554628534317017</double>
+        <double>4.777314267158508</double>
+        <double>2.388657133579254</double>
+        <double>1.194328566789627</double>
+        <double>0.5971642833948135</double>
+        <double>0.2985821416974068</double>
+        <double>0.1492910708487034</double>
+        <double>0.0746455354243517</double>
+        <double>0.0373227677121758</double>
+        <double>0.0186613838560879</double>
+        <double>0.009330691928044</double>
+        <double>0.004665345964022</double>
+        <double>0.002332672982011</double>
+        <double>0.0011663364910055</double>
+        <double>5.831682455027E-4</double>
+        <double>2.915841227514E-4</double>
+        <double>1.457920613757E-4</double>
+        <double>7.28960306878E-5</double>
+      </resolutions>
+      <metersPerUnit>1.0</metersPerUnit>
+      <pixelSize>2.8E-4</pixelSize>
+      <scaleNames>
+        <string>EPSG:3857x2:0</string>
+        <string>EPSG:3857x2:1</string>
+        <string>EPSG:3857x2:2</string>
+        <string>EPSG:3857x2:3</string>
+        <string>EPSG:3857x2:4</string>
+        <string>EPSG:3857x2:5</string>
+        <string>EPSG:3857x2:6</string>
+        <string>EPSG:3857x2:7</string>
+        <string>EPSG:3857x2:8</string>
+        <string>EPSG:3857x2:9</string>
+        <string>EPSG:3857x2:10</string>
+        <string>EPSG:3857x2:11</string>
+        <string>EPSG:3857x2:12</string>
+        <string>EPSG:3857x2:13</string>
+        <string>EPSG:3857x2:14</string>
+        <string>EPSG:3857x2:15</string>
+        <string>EPSG:3857x2:16</string>
+        <string>EPSG:3857x2:17</string>
+        <string>EPSG:3857x2:18</string>
+        <string>EPSG:3857x2:19</string>
+        <string>EPSG:3857x2:20</string>
+        <string>EPSG:3857x2:21</string>
+        <string>EPSG:3857x2:22</string>
+        <string>EPSG:3857x2:23</string>
+        <string>EPSG:3857x2:24</string>
+        <string>EPSG:3857x2:25</string>
+        <string>EPSG:3857x2:26</string>
+        <string>EPSG:3857x2:27</string>
+        <string>EPSG:3857x2:28</string>
+        <string>EPSG:3857x2:29</string>
+        <string>EPSG:3857x2:30</string>
+      </scaleNames>
+      <tileHeight>512</tileHeight>
+      <tileWidth>512</tileWidth>
+      <yCoordinateFirst>false</yCoordinateFirst>
+    </gridSet>
+    <gridSet>
+      <name>EPSG:4326</name>
       <srs>
         <number>4326</number>
       </srs>
@@ -19,16 +191,28 @@
       </extent>
       <alignTopLeft>false</alignTopLeft>
       <resolutions>
-        <double>0.31</double>
-        <double>0.155</double>
-        <double>0.0775</double>
-        <double>0.03875</double>
-        <double>0.019375</double>
-        <double>0.0096875</double>
-        <double>0.00484375</double>
-        <double>0.002421875</double>
-        <double>0.0012109375</double>
-        <double>6.0546875E-4</double>
+        <double>0.703125</double>
+        <double>0.3515625</double>
+        <double>0.17578125</double>
+        <double>0.087890625</double>
+        <double>0.0439453125</double>
+        <double>0.02197265625</double>
+        <double>0.010986328125</double>
+        <double>0.0054931640625</double>
+        <double>0.00274658203125</double>
+        <double>0.001373291015625</double>
+        <double>6.866455078125E-4</double>
+        <double>3.433227539062E-4</double>
+        <double>1.716613769531E-4</double>
+        <double>8.58306884766E-5</double>
+        <double>4.29153442383E-5</double>
+        <double>2.14576721191E-5</double>
+        <double>1.07288360596E-5</double>
+        <double>5.3644180298E-6</double>
+        <double>2.6822090149E-6</double>
+        <double>1.3411045074E-6</double>
+        <double>6.705522537E-7</double>
+        <double>3.352761269E-7</double>
       </resolutions>
       <metersPerUnit>111319.49079327358</metersPerUnit>
       <pixelSize>2.8E-4</pixelSize>
@@ -43,55 +227,90 @@
         <string>EPSG:4326:7</string>
         <string>EPSG:4326:8</string>
         <string>EPSG:4326:9</string>
+        <string>EPSG:4326:10</string>
+        <string>EPSG:4326:11</string>
+        <string>EPSG:4326:12</string>
+        <string>EPSG:4326:13</string>
+        <string>EPSG:4326:14</string>
+        <string>EPSG:4326:15</string>
+        <string>EPSG:4326:16</string>
+        <string>EPSG:4326:17</string>
+        <string>EPSG:4326:18</string>
+        <string>EPSG:4326:19</string>
+        <string>EPSG:4326:20</string>
+        <string>EPSG:4326:21</string>
       </scaleNames>
       <tileHeight>256</tileHeight>
       <tileWidth>256</tileWidth>
-      <yCoordinateFirst>false</yCoordinateFirst>
+      <yCoordinateFirst>true</yCoordinateFirst>
     </gridSet>
     <gridSet>
-      <name>EPSG:3995_level10</name>
-      <description>Used by image gallery.</description>
+      <name>EPSG:4326x2</name>
       <srs>
-        <number>3995</number>
+        <number>4326</number>
       </srs>
       <extent>
         <coords>
-          <double>-1.27E7</double>
-          <double>-1.27E7</double>
-          <double>1.27E7</double>
-          <double>1.27E7</double>
+          <double>-180.0</double>
+          <double>-90.0</double>
+          <double>180.0</double>
+          <double>90.0</double>
         </coords>
       </extent>
       <alignTopLeft>false</alignTopLeft>
       <resolutions>
-        <double>22600.0</double>
-        <double>11300.0</double>
-        <double>5650.0</double>
-        <double>2825.0</double>
-        <double>1412.5</double>
-        <double>706.25</double>
-        <double>353.125</double>
-        <double>176.5625</double>
-        <double>88.28125</double>
-        <double>44.140625</double>
+        <double>0.3515625</double>
+        <double>0.17578125</double>
+        <double>0.087890625</double>
+        <double>0.0439453125</double>
+        <double>0.02197265625</double>
+        <double>0.010986328125</double>
+        <double>0.0054931640625</double>
+        <double>0.00274658203125</double>
+        <double>0.001373291015625</double>
+        <double>6.866455078125E-4</double>
+        <double>3.433227539062E-4</double>
+        <double>1.716613769531E-4</double>
+        <double>8.58306884766E-5</double>
+        <double>4.29153442383E-5</double>
+        <double>2.14576721191E-5</double>
+        <double>1.07288360596E-5</double>
+        <double>5.3644180298E-6</double>
+        <double>2.6822090149E-6</double>
+        <double>1.3411045074E-6</double>
+        <double>6.705522537E-7</double>
+        <double>3.352761269E-7</double>
+        <double>1.676380634E-7</double>
       </resolutions>
-      <metersPerUnit>1.0</metersPerUnit>
+      <metersPerUnit>111319.49079327358</metersPerUnit>
       <pixelSize>2.8E-4</pixelSize>
       <scaleNames>
-        <string>EPSG:3995:0</string>
-        <string>EPSG:3995:1</string>
-        <string>EPSG:3995:2</string>
-        <string>EPSG:3995:3</string>
-        <string>EPSG:3995:4</string>
-        <string>EPSG:3995:5</string>
-        <string>EPSG:3995:6</string>
-        <string>EPSG:3995:7</string>
-        <string>EPSG:3995:8</string>
-        <string>EPSG:3995:9</string>
+        <string>EPSG:4326x2:0</string>
+        <string>EPSG:4326x2:1</string>
+        <string>EPSG:4326x2:2</string>
+        <string>EPSG:4326x2:3</string>
+        <string>EPSG:4326x2:4</string>
+        <string>EPSG:4326x2:5</string>
+        <string>EPSG:4326x2:6</string>
+        <string>EPSG:4326x2:7</string>
+        <string>EPSG:4326x2:8</string>
+        <string>EPSG:4326x2:9</string>
+        <string>EPSG:4326x2:10</string>
+        <string>EPSG:4326x2:11</string>
+        <string>EPSG:4326x2:12</string>
+        <string>EPSG:4326x2:13</string>
+        <string>EPSG:4326x2:14</string>
+        <string>EPSG:4326x2:15</string>
+        <string>EPSG:4326x2:16</string>
+        <string>EPSG:4326x2:17</string>
+        <string>EPSG:4326x2:18</string>
+        <string>EPSG:4326x2:19</string>
+        <string>EPSG:4326x2:20</string>
+        <string>EPSG:4326x2:21</string>
       </scaleNames>
-      <tileHeight>256</tileHeight>
-      <tileWidth>256</tileWidth>
-      <yCoordinateFirst>false</yCoordinateFirst>
+      <tileHeight>512</tileHeight>
+      <tileWidth>512</tileWidth>
+      <yCoordinateFirst>true</yCoordinateFirst>
     </gridSet>
   </gridSets>
   <layers/>
