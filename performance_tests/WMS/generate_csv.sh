@@ -5,7 +5,7 @@
 
 #######################
 # Common options
-CAPABILITIES_URL="https://cae-dga-cace-web-d-echogeosrv.azurewebsites.net/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
+CAPABILITIES_URL="https://maps.geosolutionsgroup.com/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities"
 LAYER=${1:-osm:osm}
 
 GRIDSET=${2:-EPSG\:4326}
