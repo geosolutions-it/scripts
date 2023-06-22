@@ -1,0 +1,1 @@
+["nurc:Pk50095","spearfish","sf:restricted","nurc:Img_Sample","tasmania","sf:archsites","tiger-ny","topp:states","topp:tasmania_state_boundaries","nurc:Arc_Sample","sf:bugsites","tiger:giant_polygon","topp:tasmania_water_bodies","tiger:poly_landmarks","topp:tasmania_cities","sf:sfdem","tiger:tiger_roads","nurc:mosaic","tiger:poi","topp:tasmania_roads","sf:streams","sf:roads"]
