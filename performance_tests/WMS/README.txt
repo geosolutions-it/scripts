@@ -1,6 +1,6 @@
 This package contains :
 
-* **test_all.jmx**: a jMeter test for eumetsat performance tests.  
+* **test_all.jmx**: a jMeter test for performance tests.  
     You should have to adjust path to files, especially for the access logs
     (see the Test Plan User Defined Variables)
 
